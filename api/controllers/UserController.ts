@@ -4,6 +4,10 @@ import { User } from "../models";
 import { Request, Response } from "express"
 
 export class UserController {
+	public test(req: Request, res: Response) {
+		res.status(HttpStatus.OK).send(HttpStatus.getStatusText(HttpStatus.OK))
+	}
+
 	public get(req: Request, res: Response) {
 		const query = this.getMethodByRequestParams(req.params.id)
 

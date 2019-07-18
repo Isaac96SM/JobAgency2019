@@ -1,4 +1,5 @@
 import { Router } from "express"
+import passport from "passport"
 import { UserController } from "../controllers"
 
 export class UserRoutes {
@@ -6,6 +7,9 @@ export class UserRoutes {
 	public readonly router: Router = Router();
 
 	constructor() {
+		this.router.route("/test")
+			.get(passport.authenticate('jwt', { session: false }), this.userController.test)
+
 		this.router.route("/")
 			// Get all users
 			.get(this.userController.get)
