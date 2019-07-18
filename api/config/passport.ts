@@ -1,9 +1,7 @@
 import { Strategy, ExtractJwt } from "passport-jwt"
-import mongoose from "mongoose"
-import { keys } from "./"
 import passport from "passport"
-
-const User = mongoose.model('users')
+import { keys } from "./"
+import { User } from "../models"
 
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

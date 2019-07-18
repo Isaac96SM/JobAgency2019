@@ -1,17 +1,18 @@
-import express from "express"
+import express, { Router } from "express"
 import { UserController } from "../controllers"
 
 export class UserRoutes {
-	public userController: UserController = new UserController()
+	private userController: UserController = new UserController()
+	public readonly router: Router = Router();
 
-	public routes(app: express.Application): void {
-		app.route("/user")
+	constructor() {
+		this.router.route("/")
 			// Get all users
 			.get(this.userController.get)
 			// Create user
 			.post(this.userController.post)
 
-		app.route("user/:id")
+		this.router.route("/:id")
 			// Get user
 			.get(this.userController.get)
 			// Update user
