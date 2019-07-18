@@ -8,14 +8,14 @@ import { keys, middleware } from "./config"
 
 class App {
 	public app: express.Application
-	public routePrv: Routes = new Routes()
+	public routeProvider: Routes = new Routes()
 	public mongoUrl: string = keys.mongoURI
 
 	constructor() {
 		this.app = express()
 		this.config()
 
-		this.routePrv.register(this.app)
+		this.routeProvider.register(this.app)
 		this.mongoSetup()
 	}
 
@@ -26,10 +26,10 @@ class App {
 		this.app.use(bodyParser.urlencoded({ extended: false }))
 
 		// Passport middleware
-		this.app.use(passport.initialize());
+		this.app.use(passport.initialize())
 
 		// Passport Config
-		middleware(passport);
+		middleware(passport)
 	}
 
 	private mongoSetup(): void {
@@ -38,4 +38,4 @@ class App {
 	}
 }
 
-export default new App().app;
+export default new App().app
