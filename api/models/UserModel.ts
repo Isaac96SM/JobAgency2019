@@ -7,7 +7,11 @@ const SALT_WORK_FACTOR = 10
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-	UserName: {
+	FirstName: {
+		type: String,
+		required: true
+	},
+	LastName: {
 		type: String,
 		required: true
 	},
@@ -60,4 +64,4 @@ UserSchema.methods.comparePassword = function (this: IUser, candidatePassword: s
 	})
 }
 
-export const User = mongoose.model("User", UserSchema)
+export const User = mongoose.model("users", UserSchema)

@@ -5,7 +5,7 @@ class Routes {
 	private userRoutes: UserRoutes = new UserRoutes()
 
 	public register(app: express.Application): void {
-		app.use("/user", this.userRoutes.router)
+		app.use("/users", this.userRoutes.router)
 	}
 }
 

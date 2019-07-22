@@ -23,5 +23,9 @@ export class UserRoutes {
 			.put(this.userController.put)
 			// Delete user
 			.delete(this.userController.delete)
+
+		this.router.route("/login")
+			// Create JWT for given user
+			.post(this.userController.login)
 	}
 }

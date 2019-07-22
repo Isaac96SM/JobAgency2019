@@ -1,7 +1,10 @@
-import mongoose from "mongoose"
 import * as HttpStatus from "http-status-codes"
+import * as jwt from "jsonwebtoken"
 import { User } from "../models";
 import { Request, Response } from "express"
+import { IUser } from "../interfaces"
+import { keys } from "../config";
+import { UserHelper } from "../helpers";
 
 export class UserController {
 	public test(req: Request, res: Response) {
@@ -9,9 +12,9 @@ export class UserController {
 	}
 
 	public get(req: Request, res: Response) {
-		const query = this.getMethodByRequestParams(req.params.id)
+		const action = this.getMethodByRequestParams(req.params.id)
 
-		query.method(query.param, (err: Error, docs: Array<mongoose.Document> | mongoose.Document) => {
+		User[action.method](action.param, (err: Error, docs: Array<IUser> | IUser) => {
 			if (err)
 				res.status(HttpStatus.NOT_FOUND).send(err)
 			
@@ -22,7 +25,7 @@ export class UserController {
 	public post(req: Request, res: Response) {
 		const newUser = new User(req.body)
 
-		newUser.save((err: Error, user: mongoose.Document) => {
+		newUser.save((err: Error, user: IUser) => {
 			if (err)
 				res.status(HttpStatus.BAD_REQUEST).send(err)
 
@@ -31,7 +34,7 @@ export class UserController {
 	}
 
 	public put(req: Request, res: Response) {
-		User.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err: Error, user: mongoose.Document) => {
+		User.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err: Error, user: IUser) => {
 			if (err)
 				res.status(HttpStatus.BAD_REQUEST).send(err)
 
@@ -49,9 +52,46 @@ export class UserController {
 		})
 	}
 
+	public login(req: Request, res: Response) {
+		const { Email, Password } = req.body
+
+		User.findOne({ Email }, (err: Error, user: IUser) => {
+			if (err)
+				res.status(HttpStatus.BAD_REQUEST).send(err)
+
+			if (!user)
+				res.status(HttpStatus.BAD_REQUEST).send("User not found")
+
+			user.comparePassword(Password, (err: Error, isMatch: boolean) => {
+				if (err)
+					res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR))
+
+				if (isMatch) {
+					const payload = {
+						id: user._id,
+						FirstName: user.FirstName,
+						LastName: user.LastName,
+						Email: user.Email,
+						IsCompany: user.IsCompany,
+						RegisterDate: user.RegisterDate
+					}
+
+					jwt.sign(payload,
+						keys.secretOrKey,
+						{ expiresIn: 3600 },
+						(err: Error, token: string) => {
+							res.json({ token: `Bearer ${token}` })
+						})
+				} else {
+					res.status(HttpStatus.BAD_REQUEST).send("Incorrect password")
+				}
+			})
+		})
+	}
+
 	private getMethodByRequestParams(id: any) {
 		return id 
-		? { method: User.findById, param: id }
-		: { method: User.find, param: {} }
+		? { method: 'findById', param: id }
+		: { method: 'find', param: {} }
 	}
 }
