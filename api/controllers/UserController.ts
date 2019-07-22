@@ -8,29 +8,37 @@ import { UserHelper } from "../helpers";
 
 export class UserController {
 	public test(req: Request, res: Response) {
-		res.status(HttpStatus.OK).send(HttpStatus.getStatusText(HttpStatus.OK))
+		res.status(HttpStatus.OK).send()
 	}
 
-	public get(req: Request, res: Response) {
-		const action = this.getMethodByRequestParams(req.params.id)
+	public async get(req: Request, res: Response) {
+		if (req.params.id) {
+				const user: IUser = await UserHelper.findById(req.params.id)
 
-		User[action.method](action.param, (err: Error, docs: Array<IUser> | IUser) => {
-			if (err)
-				res.status(HttpStatus.NOT_FOUND).send(err)
-			
-			res.json(docs)
-		})
+				if (!user)
+					res.status(HttpStatus.NOT_FOUND).send()
+
+				delete user.Password
+
+				res.json(user)
+		} else {
+				const users: Array<IUser> = await UserHelper.find()
+
+				users.forEach((user: IUser) => delete user.Password)
+
+				res.json(users)
+		}
 	}
 
-	public post(req: Request, res: Response) {
-		const newUser = new User(req.body)
+	public async post(req: Request, res: Response) {
+		const newUser = new User(req.body) as IUser
 
-		newUser.save((err: Error, user: IUser) => {
-			if (err)
-				res.status(HttpStatus.BAD_REQUEST).send(err)
+		const result: boolean = await UserHelper.save(newUser)
 
-			res.json(user)
-		})
+		if (!result)
+			res.status(HttpStatus.BAD_REQUEST).send()
+
+		res.status(HttpStatus.OK).send()
 	}
 
 	public put(req: Request, res: Response) {
@@ -87,11 +95,5 @@ export class UserController {
 				}
 			})
 		})
-	}
-
-	private getMethodByRequestParams(id: any) {
-		return id 
-		? { method: 'findById', param: id }
-		: { method: 'find', param: {} }
 	}
 }
