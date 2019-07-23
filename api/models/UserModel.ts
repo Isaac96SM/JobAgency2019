@@ -55,13 +55,19 @@ UserSchema.pre("save", function (this: IUser, next: mongoose.HookNextFunction) {
 	})
 })
 
-UserSchema.methods.comparePassword = function (this: IUser, candidatePassword: string, cb: any) {
-	bcrypt.compare(candidatePassword, this.Password, (err, isMatch) => {
-		if (err)
-			return cb(err)
+UserSchema.methods.comparePassword = async function (this: IUser, candidatePassword: string): Promise<boolean> {
+	try {
+		return await bcrypt.compare(candidatePassword, this.Password)
+	} catch {
+		return false
+	}
+}
 
-		cb(null, isMatch)
-	})
+UserSchema.methods.cleanPassword = function (this: IUser, flag: boolean): IUser {
+	if (flag)
+		this.Password = null
+
+	return this
 }
 
 export const User = mongoose.model("users", UserSchema)

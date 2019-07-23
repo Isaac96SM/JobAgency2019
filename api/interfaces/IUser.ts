@@ -7,5 +7,6 @@ export interface IUser extends mongoose.Document {
 	Password: string
 	IsCompany: boolean
 	RegisterDate: number
-	comparePassword: (givenPassword: string, callback: (err: Error, isMatch: boolean) => void ) => void
+	comparePassword: (givenPassword: string) => boolean
+	cleanPassword: (this: IUser, flag: boolean) => IUser
 }

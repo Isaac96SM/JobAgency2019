@@ -8,6 +8,7 @@ export class UserRoutes {
 
 	constructor() {
 		this.router.route("/test")
+			// Private route test
 			.get(passport.authenticate('jwt', { session: false }), this.userController.test)
 
 		this.router.route("/")
