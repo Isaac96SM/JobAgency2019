@@ -1,11 +1,8 @@
-import mongoose from "mongoose"
+import { Document } from "mongoose"
 
-export interface IUser extends mongoose.Document {
-	FirstName: string
-	LastName: string
+export interface IUser extends Document {
 	Email: string
 	Password: string
-	IsCompany: boolean
 	RegisterDate: number
 	comparePassword: (givenPassword: string) => boolean
 	cleanPassword: (this: IUser, flag: boolean) => IUser
