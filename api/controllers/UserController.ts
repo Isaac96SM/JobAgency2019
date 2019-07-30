@@ -13,7 +13,7 @@ export class UserController {
 
 	public async get(req: Request, res: Response) {
 		if (req.params.id) {
-				const user: IUser = await UserHelper.findById(req.params.id, true)
+				const user: IUser = await UserHelper._findById(req.params.id, true)
 
 				if (!user)
 					res.status(HttpStatus.NOT_FOUND).send()
@@ -22,7 +22,7 @@ export class UserController {
 
 				res.json(user)
 		} else {
-				const users: Array<IUser> = await UserHelper.find(true)
+				const users: Array<IUser> = await UserHelper._find(true)
 
 				if (!users)
 					res.status(HttpStatus.NOT_FOUND).send()
@@ -36,7 +36,7 @@ export class UserController {
 	public async post(req: Request, res: Response) {
 		const newUser = new User(req.body) as IUser
 
-		const result: IUser = await UserHelper.save(newUser, true)
+		const result: IUser = await UserHelper._save(newUser, true)
 
 		if (!result)
 			res.status(HttpStatus.BAD_REQUEST).send()
@@ -45,7 +45,7 @@ export class UserController {
 	}
 
 	public async put(req: Request, res: Response) {
-		const user: IUser = await UserHelper.findByIdAndUpdate(req.params.id, req.body, true)
+		const user: IUser = await UserHelper._findByIdAndUpdate(req.params.id, req.body, true)
 
 		if (!user)
 			res.status(HttpStatus.BAD_REQUEST).send()

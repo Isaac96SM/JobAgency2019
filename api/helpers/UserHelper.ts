@@ -1,16 +1,17 @@
 import { IUser } from "../interfaces";
 import { User } from "../models";
+import { BaseHelper } from "./"
 
-export class UserHelper {
-	public static async findById(id: string, cleanPassword: boolean = false): Promise<IUser> {
+export abstract class UserHelper extends BaseHelper {
+	public async _findById(id: string, cleanPassword: boolean = false): Promise<IUser> {
 		try {
-			return (await User.findById(id) as IUser).cleanPassword(cleanPassword)
+			return (await this.findById(id) as IUser).cleanPassword(cleanPassword)
 		} catch {
 			return null
 		}
 	}
 
-	public static async findByEmail(Email: string, cleanPassword: boolean = false): Promise<IUser> {
+	public async findByEmail(Email: string, cleanPassword: boolean = false): Promise<IUser> {
 		try {
 			return (await User.findOne({ Email }) as IUser).cleanPassword(cleanPassword)
 		} catch {
@@ -18,33 +19,25 @@ export class UserHelper {
 		}
 	}
 
-	public static async find(cleanPassword: boolean = false): Promise<Array<IUser>> {
+	public async _find(cleanPassword: boolean = false): Promise<Array<IUser>> {
 		try {
-			return (await User.find() as Array<IUser>).map(user => user.cleanPassword(cleanPassword))
+			return (await this.find() as Array<IUser>).map(user => user.cleanPassword(cleanPassword))
 		} catch {
 			return null
 		}
 	}
 
-	public static async findByIdAndUpdate(id: string, userUpdated: object, cleanPassword: boolean = false): Promise<IUser> {
+	public async _findByIdAndUpdate(id: string, userUpdated: object, cleanPassword: boolean = false): Promise<IUser> {
 		try {
-			return (await User.findByIdAndUpdate(id, userUpdated, { new: true }) as IUser).cleanPassword(cleanPassword)
+			return (await this.findByIdAndUpdate(id, userUpdated) as IUser).cleanPassword(cleanPassword)
 		} catch {
 			return null
 		}
 	}
 
-	public static async removeById(id: string): Promise<boolean> {
+	public async _save(user: IUser, cleanPassword: boolean = false): Promise<IUser> {
 		try {
-			return !!(await User.remove({ _id: id })).ok
-		} catch {
-			return null
-		}
-	}
-
-	public static async save(user: IUser, cleanPassword: boolean = false): Promise<IUser> {
-		try {
-			return (await user.save() as IUser).cleanPassword(cleanPassword)
+			return (await this.save(user) as IUser).cleanPassword(cleanPassword)
 		} catch {
 			return null
 		}
