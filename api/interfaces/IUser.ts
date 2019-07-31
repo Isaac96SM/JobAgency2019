@@ -1,9 +1,6 @@
-import { Document } from "mongoose"
+import { IAccount } from "./IAccount"
 
-export interface IUser extends Document {
-	Email: string
-	Password: string
-	RegisterDate: number
-	comparePassword: (givenPassword: string) => boolean
-	cleanPassword: (this: IUser, flag: boolean) => IUser
+export interface IUser extends IAccount {
+	FirstName: string
+	LastName: string
 }

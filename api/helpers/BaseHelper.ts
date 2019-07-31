@@ -1,9 +1,9 @@
 import { Model, Document } from "mongoose"
 
-export abstract class BaseHelper {
-	public Schema: Model<Document, {}>
+export abstract class BaseHelper<T extends Document> {
+	public Schema: Model<T, {}>
 
-	public async save(document: Document): Promise<Document> {
+	public async save(document: T): Promise<T> {
 		try {
 			return await document.save()
 		} catch {
@@ -11,7 +11,7 @@ export abstract class BaseHelper {
 		}
 	}
 
-	public async findById(id: string): Promise<Document> {
+	public async findById(id: string): Promise<T> {
 		try {
 			return await this.Schema.findById(id)
 		} catch {
@@ -19,7 +19,7 @@ export abstract class BaseHelper {
 		}
 	}
 
-	public async findByIdAndUpdate(id: string, document: object): Promise<Document> {
+	public async findByIdAndUpdate(id: string, document: object): Promise<T> {
 		try {
 			return await this.Schema.findByIdAndUpdate(id, document, { new: true })
 		} catch {
@@ -35,7 +35,7 @@ export abstract class BaseHelper {
 		}
 	}
 
-	public async find(): Promise<Array<Document>> {
+	public async find(): Promise<Array<T>> {
 		try {
 			return await this.Schema.find()
 		} catch {

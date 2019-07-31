@@ -1,42 +1,42 @@
 import * as HttpStatus from "http-status-codes"
 import * as jwt from "jsonwebtoken"
-import { User } from "../models";
+import { Company } from "../models";
 import { Request, Response } from "express"
-import { IUser } from "../interfaces"
+import { ICompany } from "../interfaces"
 import { keys } from "../config";
-import { UserHelper } from "../helpers";
+import { CompanyHelper } from "../helpers";
 
-export class UserController {
+export class CompanyController {
 	public test(req: Request, res: Response) {
 		res.status(HttpStatus.OK).send()
 	}
 
 	public async get(req: Request, res: Response) {
 		if (req.params.id) {
-			const user: IUser = await UserHelper.findById(req.params.id)
+			const company: ICompany = await CompanyHelper.findById(req.params.id)
 
-				if (!user)
-					res.status(HttpStatus.NOT_FOUND).send()
+			if (!company)
+				res.status(HttpStatus.NOT_FOUND).send()
 
-				delete user.Password
+			delete company.Password
 
-				res.json(user)
+			res.json(company)
 		} else {
-			const users: Array<IUser> = await UserHelper.find()
+			const companies: Array<ICompany> = await CompanyHelper.find()
 
-				if (!users)
-					res.status(HttpStatus.NOT_FOUND).send()
+			if (!companies)
+				res.status(HttpStatus.NOT_FOUND).send()
 
-				users.forEach((user: IUser) => delete user.Password)
+			companies.forEach((company: ICompany) => delete company.Password)
 
-				res.json(users)
+			res.json(companies)
 		}
 	}
 
 	public async post(req: Request, res: Response) {
-		const newUser = new User(req.body) as IUser
+		const newCompany = new Company(req.body) as ICompany
 
-		const result: IUser = await UserHelper.save(newUser)
+		const result: ICompany = await CompanyHelper.save(newCompany)
 
 		if (!result)
 			res.status(HttpStatus.BAD_REQUEST).send()
@@ -45,16 +45,16 @@ export class UserController {
 	}
 
 	public async put(req: Request, res: Response) {
-		const user: IUser = await UserHelper.findByIdAndUpdate(req.params.id, req.body)
+		const company: ICompany = await CompanyHelper.findByIdAndUpdate(req.params.id, req.body)
 
-		if (!user)
+		if (!company)
 			res.status(HttpStatus.BAD_REQUEST).send()
 
-		res.json(user)
+		res.json(company)
 	}
 
 	public async delete(req: Request, res: Response) {
-		const result: boolean = await UserHelper.removeById(req.params.id)
+		const result: boolean = await CompanyHelper.removeById(req.params.id)
 
 		if (!result)
 			res.status(HttpStatus.BAD_REQUEST).send()
@@ -65,23 +65,22 @@ export class UserController {
 	public async login(req: Request, res: Response) {
 		const { Email, Password } = req.body
 
-		const user: IUser = await UserHelper.findByEmail(Email)
+		const company: ICompany = await CompanyHelper.findByEmail(Email)
 
-		if (user === null)
+		if (company === null)
 			res.status(HttpStatus.BAD_REQUEST).send()
 
-		if (!user)
+		if (!company)
 			res.status(HttpStatus.NOT_FOUND).send()
 
-		const isMatch: boolean = await user.comparePassword(Password)
+		const isMatch: boolean = await company.comparePassword(Password)
 
 		if (isMatch) {
 			const payload = {
-				id: user._id,
-				FirstName: user.FirstName,
-				LastName: user.LastName,
-				Email: user.Email,
-				RegisterDate: user.RegisterDate
+				id: company._id,
+				Name: company.Name,
+				Email: company.Email,
+				RegisterDate: company.RegisterDate
 			}
 
 			jwt.sign(payload,
