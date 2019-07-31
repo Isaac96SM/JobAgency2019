@@ -1,4 +1,4 @@
-import { IAccount } from "../interfaces/IAccount";
+import { IAccount } from "../interfaces/IAccount"
 import { BaseHelper } from "./BaseHelper"
 
 export abstract class AccountHelper<T extends IAccount> extends BaseHelper<T> {

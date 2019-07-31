@@ -1,10 +1,10 @@
 import * as HttpStatus from "http-status-codes"
 import * as jwt from "jsonwebtoken"
-import { Company } from "../models";
+import { Company } from "../models"
 import { Request, Response } from "express"
 import { ICompany } from "../interfaces"
-import { keys } from "../config";
-import { CompanyHelper } from "../helpers";
+import { keys } from "../config"
+import { CompanyHelper } from "../helpers"
 
 export class CompanyController {
 	public test(req: Request, res: Response) {

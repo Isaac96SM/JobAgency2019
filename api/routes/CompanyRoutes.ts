@@ -4,12 +4,12 @@ import { CompanyController } from "../controllers"
 
 export class CompanyRoutes {
 	private companyController: CompanyController = new CompanyController()
-	public readonly router: Router = Router();
+	public readonly router: Router = Router()
 
 	constructor() {
 		this.router.route("/test")
 			// Private route test
-			.get(passport.authenticate('jwt', { session: false }), this.companyController.test)
+			.get(passport.authenticate("jwt", { session: false }), this.companyController.test)
 
 		this.router.route("/")
 			// Get all companies

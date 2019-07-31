@@ -1,6 +1,6 @@
 import { model, Model } from "mongoose"
 import { AccountModel } from "./AccountModel"
-import { ICompany } from "../interfaces";
+import { ICompany } from "../interfaces"
 
 const CompanySchema = new AccountModel()
 

@@ -1,12 +1,12 @@
 import { Schema, HookNextFunction } from "mongoose"
 import bcrypt from "bcrypt"
 import * as util from "util"
-import { IAccount } from "../interfaces/IAccount";
+import { IAccount } from "../interfaces/IAccount"
 
 const SALT_WORK_FACTOR = 10
 
 export function AccountModel() {
-	Schema.apply(this, arguments);
+	Schema.apply(this, arguments)
 
 	this.add({
 		Email: {
@@ -25,7 +25,7 @@ export function AccountModel() {
 
 	this.pre("save", function (this: IAccount, next: HookNextFunction) {
 		// Only hash the password if it has been modified (or is new)
-		if (!this.isModified('Password'))
+		if (!this.isModified("Password"))
 			return next()
 
 		// Generate a salt

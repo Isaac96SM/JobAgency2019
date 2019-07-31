@@ -1,6 +1,6 @@
 import { model, Model } from "mongoose"
 import { AccountModel } from "./AccountModel"
-import { IUser } from "../interfaces";
+import { IUser } from "../interfaces"
 
 const UserSchema = new AccountModel()
 

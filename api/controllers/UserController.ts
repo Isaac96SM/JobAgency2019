@@ -1,10 +1,10 @@
 import * as HttpStatus from "http-status-codes"
 import * as jwt from "jsonwebtoken"
-import { User } from "../models";
+import { User } from "../models"
 import { Request, Response } from "express"
 import { IUser } from "../interfaces"
-import { keys } from "../config";
-import { UserHelper } from "../helpers";
+import { keys } from "../config"
+import { UserHelper } from "../helpers"
 
 export class UserController {
 	public test(req: Request, res: Response) {

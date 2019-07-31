@@ -4,12 +4,12 @@ import { UserController } from "../controllers"
 
 export class UserRoutes {
 	private userController: UserController = new UserController()
-	public readonly router: Router = Router();
+	public readonly router: Router = Router()
 
 	constructor() {
 		this.router.route("/test")
 			// Private route test
-			.get(passport.authenticate('jwt', { session: false }), this.userController.test)
+			.get(passport.authenticate("jwt", { session: false }), this.userController.test)
 
 		this.router.route("/")
 			// Get all users

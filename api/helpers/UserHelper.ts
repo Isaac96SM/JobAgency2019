@@ -1,6 +1,6 @@
-import { AccountHelper } from "./AccountHelper";
-import { User } from "../models";
-import { IUser } from "../interfaces";
+import { AccountHelper } from "./AccountHelper"
+import { User } from "../models"
+import { IUser } from "../interfaces"
 
 class Helper extends AccountHelper<IUser> {
 	constructor() {
