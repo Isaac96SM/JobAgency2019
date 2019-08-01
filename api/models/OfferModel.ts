@@ -3,10 +3,6 @@ import { IOffer } from "../interfaces"
 
 // Ceate Schema
 const OfferSchema = new Schema({
-	Company: {
-		type: Schema.Types.ObjectId,
-		ref: 'companies'
-	},
 	Title: {
 		type: String,
 		required: true
@@ -33,4 +29,4 @@ const OfferSchema = new Schema({
 	}
 });
 
-export const Offer = model('offers', OfferSchema) as Model<IOffer>;
+export const Offer = OfferSchema as IOffer;

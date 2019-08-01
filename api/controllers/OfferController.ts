@@ -28,33 +28,4 @@ export class OfferController {
 			res.json(offers)
 		}
 	}
-
-	public async post(req: Request, res: Response) {
-		const newOffer = new Offer(req.body) as IOffer
-
-		const result: IOffer = await OfferHelper.save(newOffer)
-
-		if (!result)
-			res.status(HttpStatus.BAD_REQUEST).send()
-
-		res.status(HttpStatus.OK).send()
-	}
-
-	public async put(req: Request, res: Response) {
-		const offer: IOffer = await OfferHelper.findByIdAndUpdate(req.params.id, req.body)
-
-		if (!offer)
-			res.status(HttpStatus.BAD_REQUEST).send()
-
-		res.json(offer)
-	}
-
-	public async delete(req: Request, res: Response) {
-		const result: boolean = await OfferHelper.removeById(req.params.id)
-
-		if (!result)
-			res.status(HttpStatus.BAD_REQUEST).send()
-
-		res.status(HttpStatus.OK).send()
-	}
 }

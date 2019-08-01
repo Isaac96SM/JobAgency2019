@@ -28,5 +28,8 @@ export class CompanyRoutes {
 		this.router.route("/login")
 			// Create JWT for given company
 			.post(this.companyController.login)
+
+		this.router.route("/:id/offers")
+			.get(this.companyController.getOffers)
 	}
 }

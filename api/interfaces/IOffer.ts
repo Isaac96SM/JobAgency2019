@@ -1,12 +1,9 @@
-import { Document } from "mongoose"
-import { ICompany } from "./";
-import { IUser } from "./IUser";
+import { Schema } from "mongoose"
 
-export interface IOffer extends Document {
-	Company: ICompany,
+export interface IOffer extends Schema {
 	Title: string,
 	Category: string,
 	Description: string,
-	Inscriptions: IUser[],
+	Inscriptions: string[],
 	Date: Date
 }

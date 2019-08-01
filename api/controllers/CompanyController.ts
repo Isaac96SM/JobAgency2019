@@ -93,4 +93,7 @@ export class CompanyController {
 			res.status(HttpStatus.BAD_REQUEST).send("Incorrect password")
 		}
 	}
+
+	public async getOffers(req: Request, res: Response) {
+	}
 }
