@@ -1,8 +1,8 @@
 import * as HttpStatus from "http-status-codes"
 import { Offer } from "../models"
 import { Request, Response } from "express"
-import { IOffer, IUser } from "../interfaces"
-import { OfferHelper, UserHelper } from "../helpers"
+import { IOffer, IUser, ICompany } from "../interfaces"
+import { OfferHelper, UserHelper, CompanyHelper } from "../helpers"
 
 export class OfferController {
 	public test(req: Request, res: Response) {
@@ -28,7 +28,11 @@ export class OfferController {
 	}
 
 	public async post(req: Request, res: Response) {
-		const newOffer = new Offer(req.body) as IOffer
+		const company: ICompany = await CompanyHelper.findById(req.user.id)
+
+		if (!company) res.status(HttpStatus.UNAUTHORIZED).send()
+
+		const newOffer = new Offer({ ...req.body, Company: req.user.id }) as IOffer
 
 		const result: IOffer = await OfferHelper.save(newOffer)
 
@@ -62,7 +66,7 @@ export class OfferController {
 		if (!offer)
 			res.status(HttpStatus.NOT_FOUND).send()
 
-		res.json(offer.populate("Inscriptions").Inscriptions)
+		res.json(offer.Inscriptions)
 	}
 
 	public async updateSubscription(req: Request, res: Response) {

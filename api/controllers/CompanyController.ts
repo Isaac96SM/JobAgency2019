@@ -19,6 +19,7 @@ export class CompanyController {
 				res.status(HttpStatus.NOT_FOUND).send()
 
 			delete company.Password
+			await company.populate("Offers").execPopulate()
 
 			res.json(company)
 		} else {
@@ -73,7 +74,7 @@ export class CompanyController {
 		if (!company)
 			res.status(HttpStatus.NOT_FOUND).send()
 
-		const isMatch: boolean = await company.comparePassword(Password)
+		const isMatch: boolean = company.comparePassword(Password)
 
 		if (isMatch) {
 			const payload = {
@@ -100,6 +101,6 @@ export class CompanyController {
 		if (!company)
 			res.status(HttpStatus.NOT_FOUND).send()
 
-		res.json(company.populate("Offers").Offers)
+		res.json((await company.populate("Offers").execPopulate()).Offers)
 	}
 }

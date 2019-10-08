@@ -1,7 +1,8 @@
 import { Strategy, ExtractJwt } from "passport-jwt"
 import passport from "passport"
 import { keys } from "./"
-import { User } from "../models"
+import { User, Company } from "../models"
+import { IUser, ICompany } from "../interfaces"
 
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,15 +11,16 @@ const opts = {
 
 export const middleware = (passport: passport.PassportStatic) => {
 	passport.use(
-		new Strategy(opts, (jwt_payload, done) => {
-			User.findById(jwt_payload.id)
-				.then(user => {
-					if (user)
-						return done(null, user)
+		new Strategy(opts, async (jwt_payload, done) => {
+			const user: IUser = await User.findById(jwt_payload.id)
 
-					return done(null, false)
-				})
-				.catch(err => console.log(err))
+			if (user) return done(null, user)
+
+			const company: ICompany = await Company.findById(jwt_payload.id)
+
+			if (company) return done(null, company)
+
+			return done(null, false)
 		})
 	)
 }

@@ -12,7 +12,7 @@ class Helper extends BaseHelper<IOffer> {
 	public async updateInscriptions(id: string, user_id: string, add: boolean): Promise<number> {
 		const offer: IOffer = await this.findById(id)
 
-		const isAlreadySubscribed: boolean = offer.Inscriptions.find(inscription => inscription.user.toString() === user_id) !== null
+		const isAlreadySubscribed: any = offer.Inscriptions.find(inscription => inscription.User.toString() === user_id)
 
 		if (add && isAlreadySubscribed)
 			return HttpStatus.BAD_REQUEST
@@ -20,10 +20,10 @@ class Helper extends BaseHelper<IOffer> {
 			return HttpStatus.NOT_FOUND
 
 		if (add)
-			offer.Inscriptions.unshift({ user: user_id })
+			offer.Inscriptions.unshift({ User: user_id })
 		else {
 			const removeIndex: number = offer.Inscriptions
-				.map(item => item.user.toString())
+				.map(item => item.User.toString())
 				.indexOf(user_id)
 
 			offer.Inscriptions.splice(removeIndex, 1)

@@ -73,7 +73,7 @@ export class UserController {
 		if (!user)
 			res.status(HttpStatus.NOT_FOUND).send()
 
-		const isMatch: boolean = await user.comparePassword(Password)
+		const isMatch: boolean = user.comparePassword(Password)
 
 		if (isMatch) {
 			const payload = {

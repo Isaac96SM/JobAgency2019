@@ -29,7 +29,7 @@ export abstract class BaseHelper<T extends Document> {
 
 	public async removeById(id: string): Promise<boolean> {
 		try {
-			return !!(await this.Schema.remove({ _id: id })).ok
+			return !!(await this.Schema.deleteOne({ _id: id })).ok
 		} catch {
 			return null
 		}

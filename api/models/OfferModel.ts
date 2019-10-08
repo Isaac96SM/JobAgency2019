@@ -15,6 +15,10 @@ const OfferSchema = new Schema({
 		type: String,
 		required: true
 	},
+	Company: {
+		type: Schema.Types.ObjectId,
+		ref: 'companies'
+	},
 	Inscriptions: [
 		{
 			User: {
