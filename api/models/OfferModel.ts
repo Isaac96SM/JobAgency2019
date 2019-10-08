@@ -29,4 +29,4 @@ const OfferSchema = new Schema({
 	}
 });
 
-export const Offer = OfferSchema as IOffer;
+export const Offer = model("offers", OfferSchema) as Model<IOffer, {}>;

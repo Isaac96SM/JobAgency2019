@@ -1,9 +1,9 @@
-import { Schema } from "mongoose"
+import { Document } from "mongoose"
 
-export interface IOffer extends Schema {
+export interface IOffer extends Document {
 	Title: string,
 	Category: string,
 	Description: string,
-	Inscriptions: string[],
+	Inscriptions: { user: string }[],
 	Date: Date
 }

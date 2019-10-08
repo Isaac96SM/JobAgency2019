@@ -1,7 +1,6 @@
-import { model, Model } from "mongoose"
+import { Schema, model, Model } from "mongoose"
 import { AccountModel } from "./AccountModel"
 import { ICompany } from "../interfaces"
-import { Offer } from "./"
 
 const CompanySchema = new AccountModel()
 
@@ -11,7 +10,12 @@ CompanySchema.add({
 		required: true
 	},
 	Offers: [
-		Offer
+		{
+			Offer: {
+				type: Schema.Types.ObjectId,
+				ref: 'offers'
+			}
+		}
 	]
 })
 

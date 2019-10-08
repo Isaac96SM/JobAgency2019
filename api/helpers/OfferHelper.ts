@@ -1,11 +1,37 @@
 import { Offer } from "../models"
 import { IOffer } from "../interfaces"
-import { BaseHelper } from "./BaseHelper";
+import { BaseHelper } from "./BaseHelper"
+import * as HttpStatus from "http-status-codes"
 
 class Helper extends BaseHelper<IOffer> {
 	constructor() {
 		super()
 		this.Schema = Offer
+	}
+
+	public async updateInscriptions(id: string, user_id: string, add: boolean): Promise<number> {
+		const offer: IOffer = await this.findById(id)
+
+		const isAlreadySubscribed: boolean = offer.Inscriptions.find(inscription => inscription.user.toString() === user_id) !== null
+
+		if (add && isAlreadySubscribed)
+			return HttpStatus.BAD_REQUEST
+		else if (!add && !isAlreadySubscribed)
+			return HttpStatus.NOT_FOUND
+
+		if (add)
+			offer.Inscriptions.unshift({ user: user_id })
+		else {
+			const removeIndex: number = offer.Inscriptions
+				.map(item => item.user.toString())
+				.indexOf(user_id)
+
+			offer.Inscriptions.splice(removeIndex, 1)
+		}
+
+		await this.findByIdAndUpdate(id, offer)
+
+		return HttpStatus.OK
 	}
 }
 

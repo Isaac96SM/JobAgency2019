@@ -9,7 +9,7 @@ export class CompanyRoutes {
 	constructor() {
 		this.router.route("/test")
 			// Private route test
-			.get(passport.authenticate("jwt", { session: false }), this.companyController.test)
+			.get(this.companyController.test)
 
 		this.router.route("/")
 			// Get all companies
@@ -21,9 +21,9 @@ export class CompanyRoutes {
 			// Get company
 			.get(this.companyController.get)
 			// Update company
-			.put(this.companyController.put)
+			.put(passport.authenticate("jwt", { session: false }), this.companyController.put)
 			// Delete company
-			.delete(this.companyController.delete)
+			.delete(passport.authenticate("jwt", { session: false }), this.companyController.delete)
 
 		this.router.route("/login")
 			// Create JWT for given company

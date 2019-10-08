@@ -9,7 +9,7 @@ export class UserRoutes {
 	constructor() {
 		this.router.route("/test")
 			// Private route test
-			.get(passport.authenticate("jwt", { session: false }), this.userController.test)
+			.get(this.userController.test)
 
 		this.router.route("/")
 			// Get all users
@@ -21,9 +21,9 @@ export class UserRoutes {
 			// Get user
 			.get(this.userController.get)
 			// Update user
-			.put(this.userController.put)
+			.put(passport.authenticate("jwt", { session: false }), this.userController.put)
 			// Delete user
-			.delete(this.userController.delete)
+			.delete(passport.authenticate("jwt", { session: false }), this.userController.delete)
 
 		this.router.route("/login")
 			// Create JWT for given user

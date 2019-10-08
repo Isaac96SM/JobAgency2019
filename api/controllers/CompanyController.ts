@@ -95,5 +95,11 @@ export class CompanyController {
 	}
 
 	public async getOffers(req: Request, res: Response) {
+		const company: ICompany = await CompanyHelper.findById(req.params.id)
+
+		if (!company)
+			res.status(HttpStatus.NOT_FOUND).send()
+
+		res.json(company.populate("Offers").Offers)
 	}
 }
