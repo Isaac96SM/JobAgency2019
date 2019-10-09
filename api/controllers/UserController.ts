@@ -77,7 +77,7 @@ export class UserController {
 
 		if (isMatch) {
 			const payload = {
-				id: user._id,
+				_id: user._id,
 				FirstName: user.FirstName,
 				LastName: user.LastName,
 				Email: user.Email,

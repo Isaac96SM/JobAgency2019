@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { User, Company, Offer, Inscription } from "../models"
+import { User, Company, Offer, Inscription } from "@/models"
 
 class ApiService {
 	public users = {
@@ -50,8 +50,8 @@ class ApiService {
 		)
 
 		this.http.interceptors.request.use((config: any) => {
-			/*if (authService.isLogged)
-				config.headers.Authorization = authService.get().jwt*/
+			if (localStorage.getItem("jwtToken"))
+				config.headers.Authorization = localStorage.getItem("jwtToken")
 
 			return config
 		}, (err: any) => Promise.reject(err))

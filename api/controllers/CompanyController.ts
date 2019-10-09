@@ -78,7 +78,7 @@ export class CompanyController {
 
 		if (isMatch) {
 			const payload = {
-				id: company._id,
+				_id: company._id,
 				Name: company.Name,
 				Email: company.Email,
 				RegisterDate: company.RegisterDate
