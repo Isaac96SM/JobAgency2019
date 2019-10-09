@@ -1,7 +1,22 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+import { withRouter } from "react-router-dom"
+
 import { Navbar, Nav, NavDropdown } from "react-bootstrap"
 
-export class AppNavbar extends Component {
+import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
+
+class AppNavbarComponent extends Component<Props, State> {
+	componentDidMount() {
+		this.props.login("suarezmota@gmail.com", "1234")
+	}
+
+	logout() {
+		this.props.logout()
+
+		this.props.history.push("/login")
+	}
+
 	render() {
 		return (
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
@@ -28,3 +43,5 @@ export class AppNavbar extends Component {
 		)
 	}
 }
+
+export const AppNavbar = connect(mapStateToProps, mapDispatcherToProps)(withRouter(AppNavbarComponent))
