@@ -1,11 +1,1 @@
-X Hacer un helper abstracto (UserHelper y resto hereden de este) con el acceso a base de datos con los metodos genericos (crud by id)
-
-Hacer UserHelper abstract y crear un helper para particulares y otro para compañias que hereden de este
-
-Hacer lo mismo que el segundo paso pero con los controladores, pasar al controller abstracto por constructor 
-del controllador en cuestion si es users o companies y completar la declaracion de rutas con esa property.
-
-Añadir a los modelos los campos restantes como Ofertas suscritas en particulares o ofertas creadas en compañias
-
-X revisar IUser de que se adapta bien a la nueva abstraccion de clases, crear dos interfaces nuevas para compañias y particulares 
-y que hereden de IUser (y esta ultima solo usarla en metodos genericos de ambos modelos)
+Hacer un virtual al user para obtener un nodo con sus inscripciones

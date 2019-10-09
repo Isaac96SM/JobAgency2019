@@ -9,15 +9,15 @@ class Helper extends BaseHelper<IOffer> {
 		this.Schema = Offer
 	}
 
-	public async updateInscriptions(id: string, user_id: string, add: boolean): Promise<number> {
+	public async updateInscriptions(id: string, user_id: string, add: boolean): Promise<{ status: number, inscriptions: any[] }> {
 		const offer: IOffer = await this.findById(id)
 
 		const isAlreadySubscribed: any = offer.Inscriptions.find(inscription => inscription.User.toString() === user_id)
 
 		if (add && isAlreadySubscribed)
-			return HttpStatus.BAD_REQUEST
+			return { status: HttpStatus.BAD_REQUEST, inscriptions: offer.Inscriptions }
 		else if (!add && !isAlreadySubscribed)
-			return HttpStatus.NOT_FOUND
+			return { status: HttpStatus.NOT_FOUND, inscriptions: offer.Inscriptions }
 
 		if (add)
 			offer.Inscriptions.unshift({ User: user_id })
@@ -31,7 +31,7 @@ class Helper extends BaseHelper<IOffer> {
 
 		await this.findByIdAndUpdate(id, offer)
 
-		return HttpStatus.OK
+		return { status: HttpStatus.OK, inscriptions: offer.Inscriptions}
 	}
 }
 

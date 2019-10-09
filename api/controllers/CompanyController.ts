@@ -16,7 +16,7 @@ export class CompanyController {
 			const company: ICompany = await CompanyHelper.findById(req.params.id)
 
 			if (!company)
-				res.status(HttpStatus.NOT_FOUND).send()
+				res.status(HttpStatus.NOT_FOUND).send(null)
 
 			delete company.Password
 			await company.populate("Offers").execPopulate()
@@ -26,7 +26,7 @@ export class CompanyController {
 			const companies: Array<ICompany> = await CompanyHelper.find()
 
 			if (!companies)
-				res.status(HttpStatus.NOT_FOUND).send()
+				res.status(HttpStatus.NOT_FOUND).send([])
 
 			companies.forEach((company: ICompany) => delete company.Password)
 
@@ -40,16 +40,16 @@ export class CompanyController {
 		const result: ICompany = await CompanyHelper.save(newCompany)
 
 		if (!result)
-			res.status(HttpStatus.BAD_REQUEST).send()
+			res.status(HttpStatus.BAD_REQUEST).send(false)
 
-		res.status(HttpStatus.OK).send()
+		res.status(HttpStatus.OK).send(true)
 	}
 
 	public async put(req: Request, res: Response) {
 		const company: ICompany = await CompanyHelper.findByIdAndUpdate(req.params.id, req.body)
 
 		if (!company)
-			res.status(HttpStatus.BAD_REQUEST).send()
+			res.status(HttpStatus.BAD_REQUEST).send(null)
 
 		res.json(company)
 	}
@@ -58,23 +58,23 @@ export class CompanyController {
 		const result: boolean = await CompanyHelper.removeById(req.params.id)
 
 		if (!result)
-			res.status(HttpStatus.BAD_REQUEST).send()
+			res.status(HttpStatus.BAD_REQUEST).send(false)
 
-		res.status(HttpStatus.OK).send()
+		res.status(HttpStatus.OK).send(true)
 	}
 
 	public async login(req: Request, res: Response) {
-		const { Email, Password } = req.body
+		const { email, password } = req.body
 
-		const company: ICompany = await CompanyHelper.findByEmail(Email)
+		const company: ICompany = await CompanyHelper.findByEmail(email)
 
 		if (company === null)
-			res.status(HttpStatus.BAD_REQUEST).send()
+			res.status(HttpStatus.BAD_REQUEST).send("")
 
 		if (!company)
-			res.status(HttpStatus.NOT_FOUND).send()
+			res.status(HttpStatus.NOT_FOUND).send("")
 
-		const isMatch: boolean = company.comparePassword(Password)
+		const isMatch: boolean = company.comparePassword(password)
 
 		if (isMatch) {
 			const payload = {
@@ -88,10 +88,10 @@ export class CompanyController {
 				keys.secretOrKey,
 				{ expiresIn: 3600 },
 				(err: Error, token: string) => {
-					res.json({ token: `Bearer ${token}` })
+					res.json(`Bearer ${token}`)
 				})
 		} else {
-			res.status(HttpStatus.BAD_REQUEST).send("Incorrect password")
+			res.status(HttpStatus.BAD_REQUEST).send("")
 		}
 	}
 
@@ -99,7 +99,7 @@ export class CompanyController {
 		const company: ICompany = await CompanyHelper.findById(req.params.id)
 
 		if (!company)
-			res.status(HttpStatus.NOT_FOUND).send()
+			res.status(HttpStatus.NOT_FOUND).send([])
 
 		res.json((await company.populate("Offers").execPopulate()).Offers)
 	}
