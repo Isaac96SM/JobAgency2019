@@ -3,8 +3,9 @@ import { RouteComponentProps } from "react-router-dom"
 
 import { IRootState } from "../../../store"
 import * as asyncactions from "../../../store/app/async-actions"
-import * as actions from "../../../store/app/actions"
 import { AppActions } from "../../../store/app/types"
+
+import { User } from "../../../models"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { isAuthenticated, user, company } = app
@@ -14,8 +15,9 @@ export const mapStateToProps = ({ app }: IRootState) => {
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {
+		setUser: (user: User) => asyncactions.setUser(dispatch, user),
 		login: (email: string, password: string) => asyncactions.loginUser(dispatch, email, password),
-		logout: () => actions.logout()
+		logout: () => asyncactions.logout(dispatch)
 	}
 }
 

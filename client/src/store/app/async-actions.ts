@@ -18,6 +18,10 @@ export async function loginUser(dispatch: Dispatch<AppActions>, email: string, p
 	}
 }
 
+export function setUser(dispatch: Dispatch<AppActions>, user: User) {
+	dispatch(actions.setUser(user))
+}
+
 export async function loginCompany(dispatch: Dispatch<AppActions>, email: string, password: string) {
 	const token: string = await apiService.companies.login(email, password)
 
@@ -27,4 +31,10 @@ export async function loginCompany(dispatch: Dispatch<AppActions>, email: string
 		const company: Company = jwt_decode(token)
 		dispatch(actions.setCompany(company))
 	}
+}
+
+export function logout(dispatch: Dispatch<AppActions>) {
+	localStorage.removeItem("jwtToken")
+
+	return dispatch(actions.logout())
 }
