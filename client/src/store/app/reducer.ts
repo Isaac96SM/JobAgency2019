@@ -1,5 +1,5 @@
 import { Constants, AppActions, IAppState } from "./types"
-import { User, Company } from "@/models"
+import { User, Company } from "../../models"
 
 const init: IAppState = {
 	isAuthenticated: false

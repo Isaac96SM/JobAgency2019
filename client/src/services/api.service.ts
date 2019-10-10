@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { User, Company, Offer, Inscription } from "@/models"
+import { User, Company, Offer, Inscription } from "../models"
 
 class ApiService {
 	public users = {

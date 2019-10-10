@@ -1,7 +1,7 @@
 import { ActionType } from "typesafe-actions"
 import * as actions from "./actions"
 
-import { User, Company } from "@/models"
+import { User, Company } from "../../models"
 
 export type AppActions = ActionType<typeof actions>
 

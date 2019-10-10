@@ -1,10 +1,10 @@
 import { Dispatch } from "redux"
 import { RouteComponentProps } from "react-router-dom"
 
-import { IRootState } from "@/store"
-import * as asyncactions from "@/store/app/async-actions"
-import * as actions from "@/store/app/actions"
-import { AppActions } from "@/store/app/types"
+import { IRootState } from "../../../store"
+import * as asyncactions from "../../../store/app/async-actions"
+import * as actions from "../../../store/app/actions"
+import { AppActions } from "../../../store/app/types"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { isAuthenticated, user, company } = app

@@ -1,6 +1,6 @@
 import { action } from "typesafe-actions"
 import { Constants } from "./types"
-import { User, Company } from "@/models"
+import { User, Company } from "../../models"
 
 export function setUser(user: User) {
 	return action(Constants.SET_USER, {

@@ -4,8 +4,8 @@ import jwt_decode from "jwt-decode"
 import * as actions from "./actions"
 import { AppActions } from "./types"
 
-import apiService from "@/services/api.service"
-import { User, Company } from "@/models"
+import apiService from "../../services/api.service"
+import { User, Company } from "../../models"
 
 export async function loginUser(dispatch: Dispatch<AppActions>, email: string, password: string) {
 	const token: string = await apiService.users.login(email, password)
