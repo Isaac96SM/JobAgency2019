@@ -9,16 +9,14 @@ import { AppNavbar, PrivateRoute } from "../"
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
 
 class AppComponent extends Component<Props, State> {
-	componentWillMount() {
+	render() {
 		if (!this.props.isAuthenticated) {
 			const token: string | null = localStorage.getItem("jwtToken")
 
 			if (token)
 				this.props.setUser(jwt_decode(token as string))
 		}
-	}
 
-	render() {
 		return (
 				<Router>
 					<AppNavbar />

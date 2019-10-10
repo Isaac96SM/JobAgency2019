@@ -1,4 +1,4 @@
-export default abstract class Account {
+export abstract class Account {
 	constructor(
 		public _id?: string,
 		public Email: string = "",

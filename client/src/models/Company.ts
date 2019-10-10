@@ -1,5 +1,4 @@
-import Account from "./account"
-import { Offer } from "./"
+import { Offer, Account } from "./"
 
 export class Company extends Account {
 	constructor(

@@ -1,4 +1,4 @@
-import Account from "./account"
+import { Account } from "./"
 
 export class User extends Account {
 	constructor(
