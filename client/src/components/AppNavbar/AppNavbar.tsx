@@ -59,7 +59,6 @@ class AppNavbarComponent extends Component<Props, State> {
 					</Nav>
 					<Nav>
 						{authLinks}
-						<Nav.Link onClick={this.offers}>Offers</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

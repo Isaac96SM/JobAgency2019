@@ -31,7 +31,8 @@ class PrivateRouteComponent extends Component<Props, State> {
 
 		routeProps.render = (props: RouteComponentProps) => {
 			if (this.state.isAuthenticated) {
-				return routeProps.component
+				const ReturnComponent = this.props.component as any
+				return <ReturnComponent />
 			} else {
 				return <Redirect to="/login"/>
 			}
