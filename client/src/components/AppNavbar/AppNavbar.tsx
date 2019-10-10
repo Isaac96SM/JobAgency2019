@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
-import jwt_decode from "jwt-decode"
 
 import { Navbar, Nav, NavDropdown } from "react-bootstrap"
 
@@ -18,25 +17,15 @@ class AppNavbarComponent extends Component<Props, State> {
 		return state
 	}
 
-	state = {
-		isAuthenticated: false
+	state: State = {
+		isAuthenticated: this.props.isAuthenticated
 	}
 
 	home = this.toHome.bind(this)
 	login = this.toLogin.bind(this)
 	signin = this.toSignIn.bind(this)
 	logout = this.toLogout.bind(this)
-
-	componentDidMount() {
-		if (!this.props.isAuthenticated) {
-			const token: string | null = localStorage.getItem("jwtToken")
-
-			if (token)
-				this.props.setUser(jwt_decode(token as string))
-			else
-				this.props.login("suarezmota@gmail.com", "1234")
-		}
-	}
+	offers = this.toOffers.bind(this)
 
 	render() {
 		const authLinks = this.state.isAuthenticated
@@ -56,7 +45,7 @@ class AppNavbarComponent extends Component<Props, State> {
 					<Nav className="mr-auto">
 						{this.state.isAuthenticated && (
 							<Fragment>
-								<Nav.Link href="#features">Features</Nav.Link>
+								<Nav.Link onClick={this.offers}>Offers</Nav.Link>
 								<Nav.Link href="#pricing">Pricing</Nav.Link>
 								<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
 									<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -70,6 +59,7 @@ class AppNavbarComponent extends Component<Props, State> {
 					</Nav>
 					<Nav>
 						{authLinks}
+						<Nav.Link onClick={this.offers}>Offers</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
@@ -83,15 +73,21 @@ class AppNavbarComponent extends Component<Props, State> {
 	private toLogout() {
 		this.props.logout()
 
-		this.toLogin()
+		// this.toLogin()
+		this.props.history.push("/login")
 	}
 
 	private toLogin() {
-		this.props.history.push("/login")
+		this.props.login("suarezmota@gmail.com", "1234")
+		// this.props.history.push("/login")
 	}
 
 	private toSignIn() {
 		this.props.history.push("signin")
+	}
+
+	private toOffers() {
+		this.props.history.push("/offers")
 	}
 }
 
