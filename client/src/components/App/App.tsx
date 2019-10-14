@@ -9,6 +9,8 @@ import { AppNavbar, PrivateRoute } from "../"
 
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
 
+import "./styles/App.css"
+
 class AppComponent extends Component<Props, State> {
 	componentDidMount() {
 		this.props.getCompanies()
