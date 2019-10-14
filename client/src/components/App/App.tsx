@@ -10,6 +10,10 @@ import { AppNavbar, PrivateRoute } from "../"
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
 
 class AppComponent extends Component<Props, State> {
+	componentDidMount() {
+		this.props.getCompanies()
+	}
+
 	render() {
 		if (!this.props.isAuthenticated) {
 			const token: string | null = localStorage.getItem("jwtToken")

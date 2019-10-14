@@ -15,6 +15,7 @@ export const mapStateToProps = ({ app }: IRootState) => {
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {
 		setUser: (user: User) => asyncactions.setUser(dispatch, user),
+		getCompanies: () => asyncactions.getCompanies(dispatch)
 	}
 }
 

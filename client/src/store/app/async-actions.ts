@@ -38,3 +38,9 @@ export function logout(dispatch: Dispatch<AppActions>) {
 
 	return dispatch(actions.logout())
 }
+
+export async function getCompanies(dispatch: Dispatch<AppActions>) {
+	const companies: Company[] = await apiService.companies.get()
+
+	dispatch(actions.setCompanies(companies))
+}

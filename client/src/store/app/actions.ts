@@ -19,3 +19,9 @@ export function logout() {
 
 	return action(Constants.LOG_OUT, {})
 }
+
+export function setCompanies(companies: Company[]) {
+	return action(Constants.SET_COMPANIES, {
+		companies
+	})
+}

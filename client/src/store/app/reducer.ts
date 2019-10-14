@@ -2,7 +2,8 @@ import { Constants, AppActions, IAppState } from "./types"
 import { User, Company } from "../../models"
 
 const init: IAppState = {
-	isAuthenticated: false
+	isAuthenticated: false,
+	companies: []
 }
 
 export function appReducer(state: IAppState = init, action: AppActions): IAppState {
@@ -32,6 +33,11 @@ export function appReducer(state: IAppState = init, action: AppActions): IAppSta
 			}
 		case Constants.LOG_OUT:
 			return init
+		case Constants.SET_COMPANIES:
+			return {
+				...state,
+				companies: action.payload.companies
+			}
 		default:
 			return state
 	}

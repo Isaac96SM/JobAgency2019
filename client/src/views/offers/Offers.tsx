@@ -1,31 +1,25 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+
 import { Table } from "react-bootstrap"
-import { Offer } from "../../models"
+import { Offer, Company } from "../../models"
 
 import apiService from "../../services/api.service"
 
-import { Props, State } from "./models"
+import { Props, State, mapStateToProps } from "./models"
 
-export class Offers extends Component<Props, State> {
+class OffersComponent extends Component<Props, State> {
 	state: State = {
 		offers: []
 	}
 
-	async componentWillMount() {
+	getTr = this.getTrMethod.bind(this)
+	getCompanyNameById = this.getCompanyNameByIdMethod.bind(this)
+
+	async componentDidMount() {
 		this.setState({
 			offers: await apiService.offers.get()
 		})
-	}
-
-	getTr(offer: Offer) {
-		return (
-			<tr key={offer._id}>
-				<td>{ offer.Title }</td>
-				<td>{ offer.Description }</td>
-				<td>{ offer.Category }</td>
-				<td>{ offer.Company }</td>
-			</tr>
-		)
 	}
 
 	render() {
@@ -47,4 +41,21 @@ export class Offers extends Component<Props, State> {
 			</Table>
 		)
 	}
+
+	private getTrMethod(offer: Offer) {
+		return (
+			<tr key={offer._id}>
+				<td>{offer.Title}</td>
+				<td>{offer.Description}</td>
+				<td>{offer.Category}</td>
+				<td>{this.getCompanyNameById(offer.Company as string)}</td>
+			</tr>
+		)
+	}
+
+	private getCompanyNameByIdMethod(company_id: string): string {
+		return (this.props.companies.find(c => c._id === company_id) as Company).Name
+	}
 }
+
+export const Offers = connect(mapStateToProps, {})(OffersComponent)
