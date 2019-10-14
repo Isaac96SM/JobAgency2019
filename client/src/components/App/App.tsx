@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { BrowserRouter as Router } from "react-router-dom"
+import { Container } from "react-bootstrap"
 import jwt_decode from "jwt-decode"
 
 import { Offers } from "../../views"
@@ -20,7 +21,9 @@ class AppComponent extends Component<Props, State> {
 		return (
 				<Router>
 					<AppNavbar />
-					<PrivateRoute exact path={"/offers"} component={Offers} />
+					<Container>
+						<PrivateRoute exact path={"/offers"} component={Offers} />
+					</Container>
 				</Router>
 		)
 	}
