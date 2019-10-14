@@ -3,10 +3,12 @@ import { CompanyParser, InscriptionsParser } from "../../../components/AppTable/
 
 export const Headers: Header[] = [
 	{
-		value: "Title"
+		value: "Title",
+		filter: true
 	},
 	{
-		value: "Description"
+		value: "Description",
+		filter: true
 	},
 	{
 		value: "Category",

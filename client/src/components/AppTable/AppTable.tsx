@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Table } from "react-bootstrap"
+import { Table, Form } from "react-bootstrap"
 
 import { Props, State, Header } from "./models"
 
@@ -18,14 +18,27 @@ export class AppTable extends Component<Props, State> {
 
 	state: State = {
 		headers: this.props.headers || [],
-		data: this.props.data || []
+		data: this.props.data || [],
+		conditions: []
 	}
 
 	getHeader = this.getHeaderMethod.bind(this)
 	getTr = this.getTrMethod.bind(this)
+	getFilters = this.getFiltersMethod.bind(this)
+	filterRow = this.filterRowMethod.bind(this)
+	onChange = this.onChangeMethod.bind(this)
+
+	get filteredData() {
+		return this.state.data.filter(this.filterRow)
+	}
 
 	render() {
-		const body: any[] = this.state.data.map(this.getTr)
+		const body: any[] = this.filteredData.map(this.getTr)
+
+		let filters: any = null
+
+		if (this.state.headers.filter(header => header.filter).length > 0)
+			filters = this.getFilters()
 
 		return (
 			<Table>
@@ -33,10 +46,21 @@ export class AppTable extends Component<Props, State> {
 						{ this.getHeader() }
 				</thead>
 				<tbody>
+					{ filters }
 					{ body }
 				</tbody>
 			</Table>
 		)
+	}
+
+	private filterRowMethod(row: any) {
+		let result: boolean = true
+
+		this.state.conditions.forEach(condition => {
+			if (!condition.callback(row)) result = false
+		})
+
+		return result
 	}
 
 	private getHeaderMethod() {
@@ -69,5 +93,41 @@ export class AppTable extends Component<Props, State> {
 		}
 
 		return row[header.value]
+	}
+
+	private getFiltersMethod() {
+		return (
+			<tr>
+				{
+					this.state.headers.map(header => (
+						<td key={ header.value }>
+							{ this.getFilterHeader(header) }
+						</td>
+					))
+				}
+			</tr>
+		)
+	}
+
+	private getFilterHeader(header: Header) {
+		if (header.filter) {
+			return (
+				<Form.Control id={ header.value } onChange={this.onChange} />
+			)
+		}
+
+		return null
+	}
+
+	private onChangeMethod(e: React.FormEvent<any>) {
+		const field: string = (e.target as HTMLInputElement).id
+		const newValue: string = (e.target as HTMLInputElement).value
+
+		const idx: number = this.state.conditions.map(x => x.field).indexOf(field)
+
+		if (!newValue && idx !== -1)
+			this.setState({
+				
+			})
 	}
 }
