@@ -1,5 +1,5 @@
 import { Header } from "../../../components/AppTable/models"
-import { CompanyParser } from "../../../components/AppTable/components"
+import { CompanyParser, InscriptionsParser } from "../../../components/AppTable/components"
 
 export const Headers: Header[] = [
 	{
@@ -15,5 +15,10 @@ export const Headers: Header[] = [
 	{
 		value: "Company",
 		parser: CompanyParser
+	},
+	{
+		value: "Inscriptions",
+		label: "Persons subscribed",
+		parser: InscriptionsParser
 	}
 ]
