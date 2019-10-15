@@ -1,14 +1,16 @@
 import React, { Component } from "react"
 import { Table, Form } from "react-bootstrap"
 
-import { Props, State, Header } from "./models"
+import { Props, State, Header, Condition } from "./models"
 
 export class AppTable extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
 		const newState: State = { ...state }
 
-		if (props.data && props.data !== state.data)
+		if (props.data && props.data !== state.data) {
 			newState.data = props.data
+			newState.filteredData = props.data
+		}
 
 		if (props.headers && props.headers !== state.headers)
 			newState.headers = props.headers
@@ -19,6 +21,7 @@ export class AppTable extends Component<Props, State> {
 	state: State = {
 		headers: this.props.headers || [],
 		data: this.props.data || [],
+		filteredData: this.props.data || [],
 		conditions: []
 	}
 
@@ -28,12 +31,8 @@ export class AppTable extends Component<Props, State> {
 	filterRow = this.filterRowMethod.bind(this)
 	onChange = this.onChangeMethod.bind(this)
 
-	get filteredData() {
-		return this.state.data.filter(this.filterRow)
-	}
-
 	render() {
-		const body: any[] = this.filteredData.map(this.getTr)
+		const body: any[] = this.state.filteredData.map(this.getTr)
 
 		let filters: any = null
 
@@ -53,11 +52,11 @@ export class AppTable extends Component<Props, State> {
 		)
 	}
 
-	private filterRowMethod(row: any) {
+	private filterRowMethod(row: any, conditions: Condition[] = this.state.conditions) {
 		let result: boolean = true
 
-		this.state.conditions.forEach(condition => {
-			if (!condition.callback(row)) result = false
+		conditions.forEach(condition => {
+			if (!condition.callback(row[condition.field])) result = false
 		})
 
 		return result
@@ -112,7 +111,7 @@ export class AppTable extends Component<Props, State> {
 	private getFilterHeader(header: Header) {
 		if (header.filter) {
 			return (
-				<Form.Control id={ header.value } onChange={this.onChange} />
+				<Form.Control id={ header.value } onInput={this.onChange} />
 			)
 		}
 
@@ -124,10 +123,22 @@ export class AppTable extends Component<Props, State> {
 		const newValue: string = (e.target as HTMLInputElement).value
 
 		const idx: number = this.state.conditions.map(x => x.field).indexOf(field)
+		const newConditions: Condition[] = [ ...this.state.conditions ]
 
-		if (!newValue && idx !== -1)
-			this.setState({
-				
+		if (!newValue && idx !== -1) {
+			newConditions.splice(idx, 1)
+		} else if (idx !== -1) {
+			newConditions[idx].callback = (currentVal: string) => currentVal.toLowerCase().includes(newValue.toLowerCase())
+		} else if (newValue) {
+			newConditions.push({
+				field,
+				callback: (currentVal: string) => currentVal.toLowerCase().includes(newValue.toLowerCase())
 			})
+		} else return
+
+		this.setState({
+			conditions: newConditions,
+			filteredData: this.state.data.filter(row => this.filterRow(row, newConditions))
+		})
 	}
 }
