@@ -1,4 +1,4 @@
-import { AppTable } from "../../../AppTable"
+import { AppTable } from "../../AppTable"
 
 export interface Props {
 	tableRef: AppTable

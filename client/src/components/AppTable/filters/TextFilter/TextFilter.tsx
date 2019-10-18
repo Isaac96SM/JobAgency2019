@@ -1,11 +1,12 @@
-import React, { Component } from "react"
+import React from "react"
 import { Form } from "react-bootstrap"
 
-import { Props, State } from "./models"
+import { BaseFilter } from "../BaseFilter"
+
+import { State } from "./models"
 import { Condition } from "../../models"
 
-export class TextFilter extends Component<Props, State> {
-
+export class TextFilter extends BaseFilter<State> {
 	onChange = this._onChange.bind(this)
 
 	get table() {
