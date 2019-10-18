@@ -19,11 +19,15 @@ export class Paginator extends Component<Props, State> {
 
 	state: State = {
 		currentPage: 1,
-		items: this.props.items
+		items: this.props.items,
 	}
 
 	getPages = this.getPagesMethod.bind(this)
-	emit = this.emitMethod.bind(this)
+	paginate = this.paginateMethod.bind(this)
+
+	get table() {
+		return this.props.tableRef
+	}
 
 	render() {
 		const items: any[] = []
@@ -33,7 +37,7 @@ export class Paginator extends Component<Props, State> {
 
 			items.push(
 				<Pagination.Item
-					onClick={ !isCurrent ? this.emit : null }
+					onClick={ !isCurrent ? this.paginate : null }
 					key={ i }
 					id={ i }
 					active={ isCurrent }
@@ -42,9 +46,6 @@ export class Paginator extends Component<Props, State> {
 				</Pagination.Item>)
 		}
 
-		if (this.state.items <= this.props.itemsPerPage)
-			return null
-
 		return(
 			<Pagination>
 				{ items }
@@ -52,7 +53,7 @@ export class Paginator extends Component<Props, State> {
 		)
 	}
 
-	private emitMethod(e: React.FormEvent<any>) {
+	private paginateMethod(e: React.FormEvent<any>) {
 		const newPage: number = parseInt((e.target as HTMLElement).id)
 
 		this.setState({
@@ -60,13 +61,17 @@ export class Paginator extends Component<Props, State> {
 			currentPage: newPage
 		})
 
-		const skip: number = this.props.itemsPerPage * (newPage - 1)
-		const limit: number = this.props.itemsPerPage
+		const skip: number = this.props.limit * (newPage - 1)
+		const limit: number = this.props.limit
 
-		this.props.emit(skip, limit)
+		this.table.setState({
+			...this.table.state,
+			skip,
+			limit
+		})
 	}
 
 	private getPagesMethod() {
-		return parseInt((this.state.items / this.props.itemsPerPage).toString()) + 1
+		return parseInt((this.state.items / this.props.limit).toString()) + 1
 	}
 }

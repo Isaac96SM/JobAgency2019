@@ -38,6 +38,7 @@ export class Offers extends Component<Props, State> {
 				<AppTable
 					headers={ Headers }
 					data={ this.state.offers }
+					limit={ 5 }
 				/>
 			</Fragment>
 		)

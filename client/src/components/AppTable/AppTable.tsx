@@ -19,30 +19,30 @@ export class AppTable extends Component<Props, State> {
 		return newState
 	}
 
+	// #region Constructor
 	state: State = {
 		headers: this.props.headers || [],
 		data: this.props.data || [],
 		filteredData: this.props.data || [],
 		conditions: [],
 		skip: 0,
-		limit: this.props.limit || 5
+		limit: this.props.limit || 20
 	}
 
-	getHeader = this.getHeaderMethod.bind(this)
-	getTr = this.getTrMethod.bind(this)
-	getFilters = this.getFiltersMethod.bind(this)
-	getPaginated = this.getPaginatedMethod.bind(this)
-	filterRow = this.filterRowMethod.bind(this)
-	onChange = this.onChangeMethod.bind(this)
-	onPaginate = this.onPaginateMethod.bind(this)
+	getHeader = this._getHeader.bind(this)
+	getFilters = this._getFilters.bind(this)
+	getRow = this._getRow.bind(this)
+	getPaginator = this._getPaginator.bind(this)
+	paginate = this._paginate.bind(this)
+	filter = this._filter.bind(this)
+	onChange = this._onChange.bind(this)
+	// #endregion
 
 	render() {
-		const body: any[] = this.getPaginated().map(this.getTr)
+		const body: any[] = this.paginate().map(this.getRow)
 
-		let filters: any = null
-
-		if (this.state.headers.filter(header => header.filter).length > 0)
-			filters = this.getFilters()
+		const filters: boolean = this.state.headers.filter(header => header.filter).length > 0
+		const paginator: boolean = this.state.filteredData.length > this.state.limit
 
 		return (
 			<Fragment>
@@ -51,20 +51,65 @@ export class AppTable extends Component<Props, State> {
 							{ this.getHeader() }
 					</thead>
 					<tbody>
-						{ filters }
+						{ filters && this.getFilters() }
 						{ body }
 					</tbody>
 				</Table>
-				<Paginator
-					items={ this.state.filteredData.length }
-					itemsPerPage={ this.state.limit }
-					emit={ this.onPaginate }
-				/>
+				{ paginator && this.getPaginator() }
 			</Fragment>
 		)
 	}
 
-	private filterRowMethod(row: any, conditions: Condition[] = this.state.conditions) {
+	// #region JSX
+	private _getHeader() {
+		return (
+			<tr>
+				{this.state.headers.map(header => <th key={header.value}>{header.label || header.value}</th>)}
+			</tr>
+		)
+	}
+
+	private _getFilters() {
+		return (
+			<tr>
+				{
+					this.state.headers.map(header => (
+						<td key={header.value}>
+							{this._getFilterHeader(header)}
+						</td>
+					))
+				}
+			</tr>
+		)
+	}
+
+	private _getRow(row: any) {
+		return (
+			<tr key={row._id}>
+				{
+					this.state.headers.map(header => (
+						<td key={`${row._id}.${header.value}`}>
+							{this._getParsedValue(header, row)}
+						</td>
+					))
+				}
+			</tr>
+		)
+	}
+
+	private _getPaginator() {
+		return (
+			<Paginator
+				tableRef={this}
+				items={this.state.filteredData.length}
+				limit={this.state.limit}
+			/>
+		)
+	}
+	// #endregion
+
+	// #region Methods
+	private _filter(row: any, conditions: Condition[] = this.state.conditions) {
 		let result: boolean = true
 
 		conditions.forEach(condition => {
@@ -74,63 +119,7 @@ export class AppTable extends Component<Props, State> {
 		return result
 	}
 
-	private getHeaderMethod() {
-		return (
-			<tr>
-				{ this.state.headers.map(header => <th key={ header.value }>{ header.label || header.value }</th>) }
-			</tr>
-		)
-	}
-
-	private getTrMethod(row: any) {
-		return (
-			<tr key={ row._id }>
-				{
-					this.state.headers.map(header => (
-						<td key={ `${row._id}.${header.value}` }>
-							{ this.getParsedValue(header, row) }
-						</td>
-					))
-				}
-			</tr>
-		)
-	}
-
-	private getParsedValue(header: Header, row: any) {
-		if (header.parser) {
-			const ParserComponent = header.parser
-
-			return <ParserComponent value={ row[header.value] } />
-		}
-
-		return row[header.value]
-	}
-
-	private getFiltersMethod() {
-		return (
-			<tr>
-				{
-					this.state.headers.map(header => (
-						<td key={ header.value }>
-							{ this.getFilterHeader(header) }
-						</td>
-					))
-				}
-			</tr>
-		)
-	}
-
-	private getFilterHeader(header: Header) {
-		if (header.filter) {
-			return (
-				<Form.Control id={ header.value } onInput={ this.onChange } />
-			)
-		}
-
-		return null
-	}
-
-	private getPaginatedMethod() {
+	private _paginate() {
 		const { skip, limit, filteredData } = this.state
 
 		if (skip + limit > filteredData.length)
@@ -138,13 +127,15 @@ export class AppTable extends Component<Props, State> {
 
 		return filteredData.slice(skip, limit)
 	}
+	// #endregion
 
-	private onChangeMethod(e: React.FormEvent<any>) {
+	// #region Events
+	private _onChange(e: React.FormEvent<any>) {
 		const field: string = (e.target as HTMLInputElement).id
 		const newValue: string = (e.target as HTMLInputElement).value
 
 		const idx: number = this.state.conditions.map(x => x.field).indexOf(field)
-		const newConditions: Condition[] = [ ...this.state.conditions ]
+		const newConditions: Condition[] = [...this.state.conditions]
 
 		if (!newValue && idx !== -1) {
 			newConditions.splice(idx, 1)
@@ -159,15 +150,30 @@ export class AppTable extends Component<Props, State> {
 
 		this.setState({
 			conditions: newConditions,
-			filteredData: this.state.data.filter(row => this.filterRow(row, newConditions))
+			filteredData: this.state.data.filter(row => this.filter(row, newConditions))
 		})
+	}
+	// #endregion
+
+	// #region Utils
+	private _getFilterHeader(header: Header) {
+		if (header.filter) {
+			return (
+				<Form.Control id={header.value} onInput={this.onChange} />
+			)
+		}
+
+		return null
 	}
 
-	private onPaginateMethod(skip: number, limit: number) {
-		this.setState({
-			...this.state,
-			skip,
-			limit
-		})
+	private _getParsedValue(header: Header, row: any) {
+		if (header.parser) {
+			const ParserComponent = header.parser
+
+			return <ParserComponent value={row[header.value]} />
+		}
+
+		return row[header.value]
 	}
+	// #endregion
 }

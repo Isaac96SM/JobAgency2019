@@ -1,5 +1,7 @@
+import { AppTable } from "../../../AppTable"
+
 export interface Props {
+	tableRef: AppTable
 	items: number
-	itemsPerPage: number
-	emit: (skip: number, limit: number) => void
+	limit: number
 }
