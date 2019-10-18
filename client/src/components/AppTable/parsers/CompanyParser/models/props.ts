@@ -6,9 +6,4 @@ export const mapStateToProps = ({ app }: IRootState) => {
 	return { companies }
 }
 
-interface OwnProps {
-	value: string
-}
-
 export type Props = ReturnType<typeof mapStateToProps>
-	& OwnProps

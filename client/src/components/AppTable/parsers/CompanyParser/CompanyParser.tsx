@@ -1,22 +1,10 @@
-import { Component } from "react"
 import { connect } from "react-redux"
 
-import { Props, State, mapStateToProps } from "./models"
+import { BaseParser } from "../BaseParser"
 
-class CompanyParserComponent extends Component<Props, State> {
-	static getDerivedStateFromProps(props: Props, state: State): State {
-		if (props.value !== state.value)
-			return {
-				value: props.value
-			}
+import { Props, mapStateToProps } from "./models"
 
-		return state
-	}
-
-	state: State = {
-		value: this.props.value
-	}
-
+class CompanyParserComponent extends BaseParser<string, Props> {
 	render() {
 		const company = this.props.companies.find(c => c._id === this.state.value)
 
