@@ -17,6 +17,7 @@
 		"arrow-parens": false,
 		"member-access": false,
 		"curly": false,
-		"variable-name": false
+		"variable-name": false,
+		"radix": false
 	}
 }

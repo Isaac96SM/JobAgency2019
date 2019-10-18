@@ -13,8 +13,19 @@ export class Offers extends Component<Props, State> {
 	}
 
 	async componentDidMount() {
+		const offers = await apiService.offers.get()
+
+		for (let i: number = 0; i < 8; i++) {
+			const offer = { ...offers[0] }
+
+			offer._id = `${offer._id}-${i}`
+			offer.Title = `${offer.Title} ${i}`
+
+			offers.push(offer)
+		}
+
 		this.setState({
-			offers: await apiService.offers.get()
+			offers
 		})
 	}
 

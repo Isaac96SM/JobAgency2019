@@ -1,7 +1,8 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { Table, Form } from "react-bootstrap"
 
 import { Props, State, Header, Condition } from "./models"
+import { Paginator } from "./components"
 
 export class AppTable extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
@@ -22,17 +23,21 @@ export class AppTable extends Component<Props, State> {
 		headers: this.props.headers || [],
 		data: this.props.data || [],
 		filteredData: this.props.data || [],
-		conditions: []
+		conditions: [],
+		skip: 0,
+		limit: this.props.limit || 5
 	}
 
 	getHeader = this.getHeaderMethod.bind(this)
 	getTr = this.getTrMethod.bind(this)
 	getFilters = this.getFiltersMethod.bind(this)
+	getPaginated = this.getPaginatedMethod.bind(this)
 	filterRow = this.filterRowMethod.bind(this)
 	onChange = this.onChangeMethod.bind(this)
+	onPaginate = this.onPaginateMethod.bind(this)
 
 	render() {
-		const body: any[] = this.state.filteredData.map(this.getTr)
+		const body: any[] = this.getPaginated().map(this.getTr)
 
 		let filters: any = null
 
@@ -40,15 +45,22 @@ export class AppTable extends Component<Props, State> {
 			filters = this.getFilters()
 
 		return (
-			<Table>
-				<thead>
-						{ this.getHeader() }
-				</thead>
-				<tbody>
-					{ filters }
-					{ body }
-				</tbody>
-			</Table>
+			<Fragment>
+				<Table>
+					<thead>
+							{ this.getHeader() }
+					</thead>
+					<tbody>
+						{ filters }
+						{ body }
+					</tbody>
+				</Table>
+				<Paginator
+					items={ this.state.filteredData.length }
+					itemsPerPage={ this.state.limit }
+					emit={ this.onPaginate }
+				/>
+			</Fragment>
 		)
 	}
 
@@ -111,11 +123,20 @@ export class AppTable extends Component<Props, State> {
 	private getFilterHeader(header: Header) {
 		if (header.filter) {
 			return (
-				<Form.Control id={ header.value } onInput={this.onChange} />
+				<Form.Control id={ header.value } onInput={ this.onChange } />
 			)
 		}
 
 		return null
+	}
+
+	private getPaginatedMethod() {
+		const { skip, limit, filteredData } = this.state
+
+		if (skip + limit > filteredData.length)
+			return filteredData.slice(skip)
+
+		return filteredData.slice(skip, limit)
 	}
 
 	private onChangeMethod(e: React.FormEvent<any>) {
@@ -139,6 +160,14 @@ export class AppTable extends Component<Props, State> {
 		this.setState({
 			conditions: newConditions,
 			filteredData: this.state.data.filter(row => this.filterRow(row, newConditions))
+		})
+	}
+
+	private onPaginateMethod(skip: number, limit: number) {
+		this.setState({
+			...this.state,
+			skip,
+			limit
 		})
 	}
 }

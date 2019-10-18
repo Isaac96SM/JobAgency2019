@@ -5,4 +5,6 @@ export interface State {
 	data: any[]
 	filteredData: any[]
 	conditions: Condition[]
+	skip: number
+	limit: number
 }
