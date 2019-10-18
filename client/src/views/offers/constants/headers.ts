@@ -1,14 +1,15 @@
 import { Header } from "../../../components/AppTable/models"
 import { CompanyParser, InscriptionsParser } from "../../../components/AppTable/parsers"
+import { TextFilter } from "../../../components/AppTable/filters"
 
 export const Headers: Header[] = [
 	{
 		value: "Title",
-		filter: true
+		filter: TextFilter
 	},
 	{
 		value: "Description",
-		filter: true
+		filter: TextFilter
 	},
 	{
 		value: "Category",

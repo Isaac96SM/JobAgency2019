@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react"
-import { Table, Form } from "react-bootstrap"
+import { Table } from "react-bootstrap"
 
 import { Props, State, Header, Condition } from "./models"
 import { Paginator } from "./components"
@@ -35,11 +35,10 @@ export class AppTable extends Component<Props, State> {
 	getPaginator = this._getPaginator.bind(this)
 	paginate = this._paginate.bind(this)
 	filter = this._filter.bind(this)
-	onChange = this._onChange.bind(this)
 	// #endregion
 
 	render() {
-		const body: any[] = this.paginate().map(this.getRow)
+		const body: JSX.Element[] = this.paginate().map(this.getRow)
 
 		const filters: boolean = this.state.headers.filter(header => header.filter).length > 0
 		const paginator: boolean = this.state.filteredData.length > this.state.limit
@@ -129,37 +128,16 @@ export class AppTable extends Component<Props, State> {
 	}
 	// #endregion
 
-	// #region Events
-	private _onChange(e: React.FormEvent<any>) {
-		const field: string = (e.target as HTMLInputElement).id
-		const newValue: string = (e.target as HTMLInputElement).value
-
-		const idx: number = this.state.conditions.map(x => x.field).indexOf(field)
-		const newConditions: Condition[] = [...this.state.conditions]
-
-		if (!newValue && idx !== -1) {
-			newConditions.splice(idx, 1)
-		} else if (idx !== -1) {
-			newConditions[idx].callback = (currentVal: string) => currentVal.toLowerCase().includes(newValue.toLowerCase())
-		} else if (newValue) {
-			newConditions.push({
-				field,
-				callback: (currentVal: string) => currentVal.toLowerCase().includes(newValue.toLowerCase())
-			})
-		} else return
-
-		this.setState({
-			conditions: newConditions,
-			filteredData: this.state.data.filter(row => this.filter(row, newConditions))
-		})
-	}
-	// #endregion
-
 	// #region Utils
 	private _getFilterHeader(header: Header) {
 		if (header.filter) {
+			const FilterComponent = header.filter
+
 			return (
-				<Form.Control id={header.value} onInput={this.onChange} />
+				<FilterComponent
+					tableRef={ this }
+					column={ header.value }
+				/>
 			)
 		}
 

@@ -33,7 +33,7 @@ export class Paginator extends Component<Props, State> {
 	}
 
 	render() {
-		const items: any[] = this.getPages().map(this.getPaginationItem)
+		const items: JSX.Element[] = this.getPages().map(this.getPaginationItem)
 
 		return(
 			<Pagination>
