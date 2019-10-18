@@ -17,6 +17,7 @@ class AppNavbarComponent extends Component<Props, State> {
 		return state
 	}
 
+	// #region Constructor
 	state: State = {
 		isAuthenticated: this.props.isAuthenticated
 	}
@@ -26,6 +27,7 @@ class AppNavbarComponent extends Component<Props, State> {
 	signin = this.toSignIn.bind(this)
 	logout = this.toLogout.bind(this)
 	offers = this.toOffers.bind(this)
+	// #endregion
 
 	render() {
 		const authLinks = this.state.isAuthenticated
@@ -65,6 +67,7 @@ class AppNavbarComponent extends Component<Props, State> {
 		)
 	}
 
+	// #region Routes
 	private toHome() {
 		this.props.history.push("/")
 	}
@@ -88,6 +91,7 @@ class AppNavbarComponent extends Component<Props, State> {
 	private toOffers() {
 		this.props.history.push("/offers")
 	}
+	// #endregion
 }
 
 export const AppNavbar = connect(mapStateToProps, mapDispatcherToProps)(withRouter(AppNavbarComponent))

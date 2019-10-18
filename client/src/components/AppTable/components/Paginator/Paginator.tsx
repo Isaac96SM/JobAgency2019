@@ -17,34 +17,23 @@ export class Paginator extends Component<Props, State> {
 		return newState
 	}
 
+	// #region Constructor
 	state: State = {
 		currentPage: 1,
 		items: this.props.items,
 	}
 
-	getPages = this.getPagesMethod.bind(this)
-	paginate = this.paginateMethod.bind(this)
+	getPaginationItem = this._getPaginationItem.bind(this)
+	getPages = this._getPages.bind(this)
+	paginate = this._paginate.bind(this)
+	// #endregion
 
 	get table() {
 		return this.props.tableRef
 	}
 
 	render() {
-		const items: any[] = []
-
-		for (let i: number = 1; i <= this.getPages(); i++) {
-			const isCurrent: boolean = i === this.state.currentPage
-
-			items.push(
-				<Pagination.Item
-					onClick={ !isCurrent ? this.paginate : null }
-					key={ i }
-					id={ i }
-					active={ isCurrent }
-				>
-					{ i }
-				</Pagination.Item>)
-		}
+		const items: any[] = this.getPages().map(this.getPaginationItem)
 
 		return(
 			<Pagination>
@@ -53,7 +42,25 @@ export class Paginator extends Component<Props, State> {
 		)
 	}
 
-	private paginateMethod(e: React.FormEvent<any>) {
+	// #region JSX
+	private _getPaginationItem(index: number) {
+		const isCurrent: boolean = index === this.state.currentPage
+
+		return (
+			<Pagination.Item
+				onClick={ !isCurrent ? this.paginate : null }
+				key={ index }
+				id={ index }
+				active={ isCurrent }
+			>
+				{ index }
+			</Pagination.Item>
+		)
+	}
+	// #endregion
+
+	// #region Methods
+	private _paginate(e: React.FormEvent<any>) {
 		const newPage: number = parseInt((e.target as HTMLElement).id)
 
 		this.setState({
@@ -70,8 +77,14 @@ export class Paginator extends Component<Props, State> {
 			limit
 		})
 	}
+	// #endregion
 
-	private getPagesMethod() {
-		return parseInt((this.state.items / this.props.limit).toString()) + 1
+	// #region Utils
+	private _getPages() {
+		const pages: number = parseInt((this.state.items / this.props.limit).toString()) + 1
+		const array: any[] = Array(pages)
+
+		return [ ...array.keys() ].map(i => i + 1)
 	}
+	// #endregion
 }
