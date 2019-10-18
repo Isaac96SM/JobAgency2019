@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
 import { Table } from "react-bootstrap"
 
-import { Props, State, Header, Condition } from "./models"
+import { Props, State, Header } from "./models"
 import { Paginator } from "./components"
 
 export class AppTable extends Component<Props, State> {
@@ -34,7 +34,6 @@ export class AppTable extends Component<Props, State> {
 	getRow = this._getRow.bind(this)
 	getPaginator = this._getPaginator.bind(this)
 	paginate = this._paginate.bind(this)
-	filter = this._filter.bind(this)
 	// #endregion
 
 	render() {
@@ -108,16 +107,6 @@ export class AppTable extends Component<Props, State> {
 	// #endregion
 
 	// #region Methods
-	private _filter(row: any, conditions: Condition[] = this.state.conditions) {
-		let result: boolean = true
-
-		conditions.forEach(condition => {
-			if (!condition.callback(row[condition.field])) result = false
-		})
-
-		return result
-	}
-
 	private _paginate() {
 		const { skip, limit, filteredData } = this.state
 
