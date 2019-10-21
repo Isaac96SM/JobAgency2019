@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
 
 import { BaseParser } from "../BaseParser"
-import { CounterParser } from "../CounterParser/CounterParser"
+import { CounterParser } from ".."
 
 import { User, Inscription } from "../../../../models"
 

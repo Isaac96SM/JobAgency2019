@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap"
 import jwt_decode from "jwt-decode"
 
 import { Offers } from "../../views"
-import { AppNavbar, PrivateRoute } from "../"
+import { AppNavbar, PrivateRoute } from ".."
 
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
 

@@ -1,6 +1,6 @@
-import { Header } from "../../../components/AppTable/models"
-import { CompanyParser, InscriptionsParser } from "../../../components/AppTable/parsers"
-import { TextFilter } from "../../../components/AppTable/filters"
+import { Header } from "../../../components/app-table/models"
+import { CompanyParser, InscriptionsParser } from "../../../components/app-table/parsers"
+import { TextFilter } from "../../../components/app-table/filters"
 
 export const Headers: Header[] = [
 	{
