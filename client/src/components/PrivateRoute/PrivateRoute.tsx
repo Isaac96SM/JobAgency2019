@@ -40,7 +40,7 @@ class PrivateRouteComponent extends Component<Props, State> {
 
 		return (
 			<Route
-				{...routeProps}
+				{ ...routeProps }
 			/>
 		)
 	}

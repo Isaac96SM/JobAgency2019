@@ -62,7 +62,13 @@ export class AppTable extends Component<Props, State> {
 	private _getHeader() {
 		return (
 			<tr>
-				{this.state.headers.map(header => <th key={header.value}>{header.label || header.value}</th>)}
+				{
+					this.state.headers.map(header =>
+						<th key={ header.value }>
+							{ header.label || header.value }
+						</th>
+					)
+				}
 			</tr>
 		)
 	}
@@ -71,11 +77,11 @@ export class AppTable extends Component<Props, State> {
 		return (
 			<tr>
 				{
-					this.state.headers.map(header => (
-						<td key={header.value}>
-							{this._getFilterHeader(header)}
+					this.state.headers.map(header =>
+						<td key={ header.value }>
+							{ this._getFilterHeader(header) }
 						</td>
-					))
+					)
 				}
 			</tr>
 		)
@@ -83,13 +89,13 @@ export class AppTable extends Component<Props, State> {
 
 	private _getRow(row: any) {
 		return (
-			<tr key={row._id}>
+			<tr key={ row._id }>
 				{
-					this.state.headers.map(header => (
-						<td key={`${row._id}.${header.value}`}>
-							{this._getParsedValue(header, row)}
+					this.state.headers.map(header =>
+						<td key={ `${row._id}.${header.value}` }>
+							{ this._getParsedValue(header, row) }
 						</td>
-					))
+					)
 				}
 			</tr>
 		)
@@ -98,9 +104,9 @@ export class AppTable extends Component<Props, State> {
 	private _getPaginator() {
 		return (
 			<Paginator
-				tableRef={this}
-				items={this.state.filteredData.length}
-				limit={this.state.limit}
+				tableRef={ this }
+				items={ this.state.filteredData.length }
+				limit={ this.state.limit }
 			/>
 		)
 	}

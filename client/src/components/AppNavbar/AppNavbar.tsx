@@ -31,28 +31,30 @@ class AppNavbarComponent extends Component<Props, State> {
 
 	render() {
 		const authLinks = this.state.isAuthenticated
-			? (<Nav.Link onClick={this.logout}>Log Out</Nav.Link>)
+			? (<Nav.Link onClick={ this.logout }>Log Out</Nav.Link>)
 			: (
 				<Fragment>
-					<Nav.Link onClick={this.login}>Log In</Nav.Link>
-					<Nav.Link onClick={this.signin}>Sign In</Nav.Link>
+					<Nav.Link onClick={ this.login }>Log In</Nav.Link>
+					<Nav.Link onClick={ this.signin }>Sign In</Nav.Link>
 				</Fragment>
 			)
 
 		return (
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-				<Navbar.Brand onClick={this.home}>Job Agency</Navbar.Brand>
+				<Navbar.Brand onClick={ this.home }>Job Agency</Navbar.Brand>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="mr-auto">
-						{this.state.isAuthenticated && (
-							<Fragment>
-								<Nav.Link onClick={this.offers}>Offers</Nav.Link>
-							</Fragment>
-						)}
+						{
+							this.state.isAuthenticated && (
+								<Fragment>
+									<Nav.Link onClick={ this.offers }>Offers</Nav.Link>
+								</Fragment>
+							)
+						}
 					</Nav>
 					<Nav>
-						{authLinks}
+						{ authLinks }
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

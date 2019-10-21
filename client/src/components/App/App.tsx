@@ -28,7 +28,7 @@ class AppComponent extends Component<Props, State> {
 				<Router>
 					<AppNavbar />
 					<Container>
-						<PrivateRoute exact path={"/offers"} component={Offers} />
+						<PrivateRoute exact path="/offers" component={ Offers } />
 					</Container>
 				</Router>
 		)

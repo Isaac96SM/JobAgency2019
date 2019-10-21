@@ -10,7 +10,7 @@ export class TextFilter extends BaseFilter<State> {
 	onChange = this._onChange.bind(this)
 
 	render() {
-		return <Form.Control id={this.props.column} onInput={this.onChange} />
+		return <Form.Control id={ this.props.column } onInput={ this.onChange } />
 	}
 
 	private _onChange(e: React.FormEvent<any>) {
