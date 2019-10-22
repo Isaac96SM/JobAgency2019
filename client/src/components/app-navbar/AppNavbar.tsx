@@ -69,13 +69,11 @@ class AppNavbarComponent extends Component<Props, State> {
 	private toLogout() {
 		this.props.logout()
 
-		// this.toLogin()
-		this.props.history.push("/login")
+		this.toLogin()
 	}
 
 	private toLogin() {
-		this.props.login("suarezmota@gmail.com", "1234")
-		// this.props.history.push("/login")
+		this.props.history.push("/login")
 	}
 
 	private toSignIn() {
