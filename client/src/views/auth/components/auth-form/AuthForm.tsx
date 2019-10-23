@@ -24,14 +24,14 @@ export class AuthForm extends Component<Props, State> {
 		return this.props.mode === Mode.login
 	}
 
-	get wrapper() {
-		return this.props.wrapper
+	get parent() {
+		return this.props.parentRef
 	}
 
 	render() {
 		return (
 			<Form>
-				{ this.wrapper.state.error && this.getAlert() }
+				{this.parent.state.error && this.getAlert() }
 				{ !this.isLogin && this.getSignInControlsUp() }
 
 				<Form.Group controlId={ FormKeys.email }>
@@ -130,7 +130,7 @@ export class AuthForm extends Component<Props, State> {
 	private _getAlert() {
 		return (
 			<Alert variant="danger" onClose={ this.onDismiss } dismissible>
-				{this.wrapper.state.error}
+				{this.parent.state.error}
 			</Alert>
 		)
 	}
@@ -174,8 +174,8 @@ export class AuthForm extends Component<Props, State> {
 	}
 
 	private _onDismiss() {
-		this.wrapper.setState({
-			...this.wrapper.state,
+		this.parent.setState({
+			...this.parent.state,
 			error: ""
 		})
 	}

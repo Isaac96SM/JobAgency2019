@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
+import { ComponentRef } from "../../../models"
+
 import { AuthForm } from "../components"
 import { Mode, Form } from "../components/auth-form/models"
 
@@ -25,6 +27,8 @@ class LogInComponent extends Component<Props, State> {
 		isAuthenticated: this.props.isAuthenticated
 	}
 
+	ref = new ComponentRef(this)
+
 	logIn = this._logIn.bind(this)
 	// #endregion
 
@@ -37,7 +41,7 @@ class LogInComponent extends Component<Props, State> {
 	}
 
 	render() {
-		return <AuthForm mode={ Mode.login } onSubmit={ this.logIn } wrapper={ this } />
+		return <AuthForm parentRef={ this.ref } mode={ Mode.login } onSubmit={ this.logIn } />
 	}
 	// #endregion
 
