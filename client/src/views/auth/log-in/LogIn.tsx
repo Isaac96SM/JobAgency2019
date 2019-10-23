@@ -37,13 +37,21 @@ class LogInComponent extends Component<Props, State> {
 	}
 
 	render() {
-		return <AuthForm mode={ Mode.login } onSubmit={ this.logIn } error={ this.state.error } />
+		return <AuthForm mode={ Mode.login } onSubmit={ this.logIn } wrapper={ this } />
 	}
 	// #endregion
 
 	// #region Methods
-	private async _logIn(form: Form) {
-		await this.props.login(form.email, form.password)
+	private async _logIn(form: Form, isCompany: boolean) {
+		const error = isCompany
+			? await this.props.loginCompany(form.email, form.password)
+			: await this.props.loginUser(form.email, form.password)
+
+		if (error)
+			this.setState({
+				...this.state,
+				error
+			})
 	}
 	// #endregion
 }

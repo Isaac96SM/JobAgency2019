@@ -69,10 +69,12 @@ export class CompanyController {
 		const company: ICompany = await CompanyHelper.findByEmail(email)
 
 		if (company === null)
-			res.status(HttpStatus.BAD_REQUEST).send("")
+			res.statusMessage = "User not found"
+			res.status(HttpStatus.BAD_REQUEST).send()
 
 		if (!company)
-			res.status(HttpStatus.NOT_FOUND).send("")
+			res.statusMessage = "User not found"
+			res.status(HttpStatus.NOT_FOUND).send()
 
 		const isMatch: boolean = company.comparePassword(password)
 
@@ -91,7 +93,8 @@ export class CompanyController {
 					res.json(`Bearer ${token}`)
 				})
 		} else {
-			res.status(HttpStatus.BAD_REQUEST).send("")
+			res.statusMessage = "Incorrect password"
+			res.status(HttpStatus.BAD_REQUEST).send()
 		}
 	}
 

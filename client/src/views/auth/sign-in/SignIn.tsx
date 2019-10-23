@@ -12,11 +12,11 @@ export class SignIn extends Component<Props, State> {
 	// #endregion
 
 	render() {
-		return <AuthForm error="" mode={ Mode.signin } onSubmit={ this.signIn } />
+		return <AuthForm mode={ Mode.signin } onSubmit={ this.signIn } wrapper={ this } />
 	}
 
 	// #region Methods
-	private _signIn(form: Form) {
+	private _signIn(form: Form, isCompany: boolean) {
 		return true
 	}
 	// #endregion

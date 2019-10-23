@@ -8,13 +8,17 @@ import apiService from "../../services/api.service"
 import { User, Company } from "../../models"
 
 export async function loginUser(dispatch: Dispatch<AppActions>, email: string, password: string) {
-	const token: string = await apiService.users.login(email, password)
+	try {
+		const token: string = await apiService.users.login(email, password)
 
-	if (token) {
-		localStorage.setItem("jwtToken", token)
+		if (token) {
+			localStorage.setItem("jwtToken", token)
 
-		const user: User = jwt_decode(token)
-		dispatch(actions.setUser(user))
+			const user: User = jwt_decode(token)
+			setUser(dispatch, user)
+		}
+	} catch (e) {
+		return e.statusText
 	}
 }
 
@@ -23,14 +27,22 @@ export function setUser(dispatch: Dispatch<AppActions>, user: User) {
 }
 
 export async function loginCompany(dispatch: Dispatch<AppActions>, email: string, password: string) {
-	const token: string = await apiService.companies.login(email, password)
+	try {
+		const token: string = await apiService.companies.login(email, password)
 
-	if (token) {
-		localStorage.setItem("jwtToken", token)
+		if (token) {
+			localStorage.setItem("jwtToken", token)
 
-		const company: Company = jwt_decode(token)
-		dispatch(actions.setCompany(company))
+			const company: Company = jwt_decode(token)
+			setCompany(dispatch, company)
+		}
+	} catch (e) {
+		return e.statusText
 	}
+}
+
+export function setCompany(dispatch: Dispatch<AppActions>, company: Company) {
+	dispatch(actions.setCompany(company))
 }
 
 export function logout(dispatch: Dispatch<AppActions>) {

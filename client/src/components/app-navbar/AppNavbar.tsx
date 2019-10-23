@@ -68,8 +68,6 @@ class AppNavbarComponent extends Component<Props, State> {
 
 	private toLogout() {
 		this.props.logout()
-
-		this.toLogin()
 	}
 
 	private toLogin() {

@@ -68,10 +68,12 @@ export class UserController {
 		const user: IUser = await UserHelper.findByEmail(email)
 
 		if (user === null)
-			res.status(HttpStatus.BAD_REQUEST).send("")
+			res.statusMessage = "User not found"
+			res.status(HttpStatus.BAD_REQUEST).send()
 
 		if (!user)
-			res.status(HttpStatus.NOT_FOUND).send("")
+			res.statusMessage = "User not found"
+			res.status(HttpStatus.NOT_FOUND).send()
 
 		const isMatch: boolean = user.comparePassword(password)
 
@@ -88,10 +90,11 @@ export class UserController {
 				keys.secretOrKey,
 				{ expiresIn: 3600 },
 				(err: Error, token: string) => {
-					res.json(`Bearer ${token}`)
+					res.send(`Bearer ${token}`)
 				})
 		} else {
-			res.status(HttpStatus.BAD_REQUEST).send("")
+			res.statusMessage = "Incorrect password"
+			res.status(HttpStatus.BAD_REQUEST).send()
 		}
 	}
 }

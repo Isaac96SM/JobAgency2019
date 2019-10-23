@@ -13,7 +13,6 @@ export const mapStateToProps = ({ app }: IRootState) => {
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {
-		login: (email: string, password: string) => asyncactions.loginUser(dispatch, email, password),
 		logout: () => asyncactions.logout(dispatch)
 	}
 }

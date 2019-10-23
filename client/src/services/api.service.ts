@@ -46,7 +46,13 @@ class ApiService {
 	constructor() {
 		this.http.interceptors.response.use(
 			response => response.data,
-			error => { throw new Error(error) }
+			error => {
+				// eslint-disable-next-line
+				throw {
+					status: error.response.status,
+					statusText: error.response.statusText
+				}
+			}
 		)
 
 		this.http.interceptors.request.use((config: any) => {

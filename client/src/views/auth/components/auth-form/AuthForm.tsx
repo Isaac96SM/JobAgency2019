@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Alert } from "react-bootstrap"
 
 import { Props, State, Form as FormModel, FormKeys, Mode } from "./models"
 
@@ -8,9 +8,11 @@ export class AuthForm extends Component<Props, State> {
 	initForm = this._initForm.bind(this)
 	getSignInControlsUp = this._getSignInControlsUp.bind(this)
 	getSignInControlsDown = this._getSignInControlsDown.bind(this)
+	getAlert = this._getAlert.bind(this)
 	onSubmit = this._onSubmit.bind(this)
 	onChange = this._onChange.bind(this)
 	onInput = this._onInput.bind(this)
+	onDismiss = this._onDismiss.bind(this)
 
 	state: State = {
 		isCompany: false,
@@ -22,9 +24,14 @@ export class AuthForm extends Component<Props, State> {
 		return this.props.mode === Mode.login
 	}
 
+	get wrapper() {
+		return this.props.wrapper
+	}
+
 	render() {
 		return (
-			<Form onSubmit={ this.onSubmit }>
+			<Form>
+				{ this.wrapper.state.error && this.getAlert() }
 				{ !this.isLogin && this.getSignInControlsUp() }
 
 				<Form.Group controlId={ FormKeys.email }>
@@ -49,7 +56,16 @@ export class AuthForm extends Component<Props, State> {
 
 				{ !this.isLogin && this.getSignInControlsDown() }
 
-				<Button variant="primary" type="submit">
+				<Form.Group controlId="isCompany">
+					<Form.Check
+						onChange={this.onChange}
+						value={this.state.isCompany.toString()}
+						type="checkbox"
+						label="Are you a company?"
+					/>
+				</Form.Group>
+
+				<Button variant="primary" type="button" onClick={this.onSubmit}>
 					{ this.isLogin ? "Log In" : "Sign In" }
 				</Button>
 			</Form>
@@ -99,26 +115,23 @@ export class AuthForm extends Component<Props, State> {
 
 	private _getSignInControlsDown() {
 		return (
-			<Fragment>
-				<Form.Group controlId={ FormKeys.repeatPassword }>
-					<Form.Label>Repeat Password</Form.Label>
-					<Form.Control
-						onInput= { this.onInput }
-						value={ this.state.form.repeatPassword }
-						type="password"
-						placeholder="Repeat Password"
-					/>
-				</Form.Group>
+			<Form.Group controlId={ FormKeys.repeatPassword }>
+				<Form.Label>Repeat Password</Form.Label>
+				<Form.Control
+					onInput= { this.onInput }
+					value={ this.state.form.repeatPassword }
+					type="password"
+					placeholder="Repeat Password"
+				/>
+			</Form.Group>
+		)
+	}
 
-				<Form.Group controlId="isCompany">
-					<Form.Check
-						onChange={ this.onChange }
-						value={ this.state.isCompany.toString() }
-						type="checkbox"
-						label="Are you a company?"
-					/>
-				</Form.Group>
-			</Fragment>
+	private _getAlert() {
+		return (
+			<Alert variant="danger" onClose={ this.onDismiss } dismissible>
+				{this.wrapper.state.error}
+			</Alert>
 		)
 	}
 	// #endregion
@@ -139,7 +152,7 @@ export class AuthForm extends Component<Props, State> {
 
 	// #region Events
 	private _onSubmit() {
-		this.props.onSubmit(this.state.form)
+		this.props.onSubmit(this.state.form, this.state.isCompany)
 	}
 
 	private _onChange() {
@@ -157,6 +170,13 @@ export class AuthForm extends Component<Props, State> {
 		this.setState({
 			...this.state,
 			form
+		})
+	}
+
+	private _onDismiss() {
+		this.wrapper.setState({
+			...this.wrapper.state,
+			error: ""
 		})
 	}
 	// #endregion
