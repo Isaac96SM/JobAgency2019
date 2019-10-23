@@ -68,15 +68,17 @@ export class CompanyController {
 
 		const company: ICompany = await CompanyHelper.findByEmail(email)
 
-		if (company === null)
+		if (company === null) {
 			res.statusMessage = "User not found"
 			res.status(HttpStatus.BAD_REQUEST).send()
+		}
 
-		if (!company)
+		if (!company) {
 			res.statusMessage = "User not found"
 			res.status(HttpStatus.NOT_FOUND).send()
+		}
 
-		const isMatch: boolean = company.comparePassword(password)
+		const isMatch: boolean = await company.comparePassword(password)
 
 		if (isMatch) {
 			const payload = {

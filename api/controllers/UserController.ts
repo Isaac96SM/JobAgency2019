@@ -67,15 +67,17 @@ export class UserController {
 
 		const user: IUser = await UserHelper.findByEmail(email)
 
-		if (user === null)
+		if (user === null) {
 			res.statusMessage = "User not found"
 			res.status(HttpStatus.BAD_REQUEST).send()
+		}
 
-		if (!user)
+		if (!user) {
 			res.statusMessage = "User not found"
 			res.status(HttpStatus.NOT_FOUND).send()
+		}
 
-		const isMatch: boolean = user.comparePassword(password)
+		const isMatch: boolean = await user.comparePassword(password)
 
 		if (isMatch) {
 			const payload = {
