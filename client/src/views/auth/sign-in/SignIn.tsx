@@ -17,7 +17,14 @@ export class SignIn extends Component<Props, State> {
 	// #endregion
 
 	render() {
-		return <AuthForm parentRef={ this.ref } mode={ Mode.signin } onSubmit={ this.signIn } />
+		return (
+			<AuthForm
+				parentRef={ this.ref }
+				mode={ Mode.signin }
+				onSubmit={ this.signIn }
+				error={ this.state.error }
+			/>
+		)
 	}
 
 	// #region Methods

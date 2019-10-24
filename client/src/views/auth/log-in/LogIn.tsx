@@ -41,7 +41,14 @@ class LogInComponent extends Component<Props, State> {
 	}
 
 	render() {
-		return <AuthForm parentRef={ this.ref } mode={ Mode.login } onSubmit={ this.logIn } />
+		return (
+			<AuthForm
+				parentRef={ this.ref }
+				mode={ Mode.login }
+				onSubmit={ this.logIn }
+				error={ this.state.error }
+			/>
+		)
 	}
 	// #endregion
 

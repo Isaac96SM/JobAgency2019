@@ -1,12 +1,12 @@
 import { ComponentRef } from "../../../../../models"
 
-import { State as LogInState } from "../../../log-in/models"
-import { State as SignInState } from "../../../sign-in/models"
+import { State } from "../../../models"
 
 import { Mode, Form } from "."
 
 export interface Props {
+	error: string,
 	mode: Mode,
 	onSubmit: (form: Form, isCompany: boolean) => void,
-	parentRef: ComponentRef<LogInState> | ComponentRef<SignInState>
+	parentRef: ComponentRef<any, any & State>
 }

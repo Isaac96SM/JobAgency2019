@@ -1,6 +1,6 @@
+export * from "./account"
 export * from "./user"
 export * from "./company"
 export * from "./offer"
 export * from "./inscription"
-export * from "./account"
 export * from "./component-ref"

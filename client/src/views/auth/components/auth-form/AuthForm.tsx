@@ -31,7 +31,7 @@ export class AuthForm extends Component<Props, State> {
 	render() {
 		return (
 			<Form>
-				{this.parent.state.error && this.getAlert() }
+				{this.props.error && this.getAlert() }
 				{ !this.isLogin && this.getSignInControlsUp() }
 
 				<Form.Group controlId={ FormKeys.email }>
@@ -130,7 +130,7 @@ export class AuthForm extends Component<Props, State> {
 	private _getAlert() {
 		return (
 			<Alert variant="danger" onClose={ this.onDismiss } dismissible>
-				{this.parent.state.error}
+				{this.props.error}
 			</Alert>
 		)
 	}
