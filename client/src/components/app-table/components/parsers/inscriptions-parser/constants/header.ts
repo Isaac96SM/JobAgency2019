@@ -1,5 +1,5 @@
 import { Header } from "../../../../models"
-import { TextFilter } from "../../../filters"
+import { TextFilter } from "../../.."
 
 export const Headers: Header[] = [
 	{
