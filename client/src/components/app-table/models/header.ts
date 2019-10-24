@@ -1,7 +1,7 @@
 import { ConnectedComponent } from "react-redux"
 
-import { BaseFilter } from "../filters/BaseFilter"
-import { BaseParser } from "../parsers/BaseParser"
+import { BaseFilter } from "../components/filters/BaseFilter"
+import { BaseParser } from "../components/parsers/BaseParser"
 
 export interface Header {
 	label?: string

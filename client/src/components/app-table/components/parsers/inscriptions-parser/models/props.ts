@@ -1,4 +1,4 @@
-import { IRootState } from "../../../../../store"
+import { IRootState } from "../../../../../../store"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { currentUser, users } = app

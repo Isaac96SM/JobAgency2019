@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap"
 import { BaseFilter } from "../BaseFilter"
 
 import { State } from "./models"
-import { Condition } from "../../models"
+import { Condition } from "../../../models"
 
 export class TextFilter extends BaseFilter<State> {
 	onChange = this._onChange.bind(this)

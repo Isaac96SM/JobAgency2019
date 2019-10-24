@@ -1,4 +1,4 @@
-import { Header } from "../../../models"
+import { Header } from "../../../../models"
 import { TextFilter } from "../../../filters"
 
 export const Headers: Header[] = [
