@@ -7,6 +7,14 @@ import { AppActions } from "./types"
 import apiService from "../../services/api.service"
 import { User, Company } from "../../models"
 
+export async function signinUser(dispatch: Dispatch<AppActions>, user: User) {
+	try {
+		await apiService.users.post(user)
+	} catch (e) {
+		return e.statusText
+	}
+}
+
 export async function loginUser(dispatch: Dispatch<AppActions>, email: string, password: string) {
 	try {
 		const token: string = await apiService.users.login(email, password)
@@ -24,6 +32,14 @@ export async function loginUser(dispatch: Dispatch<AppActions>, email: string, p
 
 export function setUser(dispatch: Dispatch<AppActions>, user: User) {
 	dispatch(actions.setUser(user))
+}
+
+export async function signinCompany(dispatch: Dispatch<AppActions>, company: Company) {
+	try {
+		await apiService.companies.post(company)
+	} catch (e) {
+		return e.statusText
+	}
 }
 
 export async function loginCompany(dispatch: Dispatch<AppActions>, email: string, password: string) {

@@ -20,6 +20,17 @@ export class AuthForm extends Component<Props, State> {
 	}
 	// #endregion
 
+	get disabled() {
+		return this.isLogin
+			? this.state.form.email === "" || this.state.form.password === ""
+			: (
+				this.state.form.email === "" || this.state.form.password === ""
+					|| this.state.form.repeatPassword || this.state.form.password !== this.state.form.repeatPassword
+				) || this.state.isCompany
+					? this.state.form.name === ""
+					: this.state.form.firstName === "" || this.state.form.lastName === ""
+	}
+
 	get isLogin() {
 		return this.props.mode === Mode.login
 	}
@@ -31,7 +42,7 @@ export class AuthForm extends Component<Props, State> {
 	render() {
 		return (
 			<Form>
-				{this.props.error && this.getAlert() }
+				{ this.props.error && this.getAlert() }
 				{ !this.isLogin && this.getSignInControlsUp() }
 
 				<Form.Group controlId={ FormKeys.email }>
@@ -58,14 +69,19 @@ export class AuthForm extends Component<Props, State> {
 
 				<Form.Group controlId="isCompany">
 					<Form.Check
-						onChange={this.onChange}
-						value={this.state.isCompany.toString()}
+						onChange={ this.onChange }
+						value={ this.state.isCompany.toString() }
 						type="checkbox"
 						label="Are you a company?"
 					/>
 				</Form.Group>
 
-				<Button variant="primary" type="button" onClick={this.onSubmit}>
+				<Button
+					variant="primary"
+					type="button"
+					onClick={ this.onSubmit }
+					disabled={ this.disabled }
+				>
 					{ this.isLogin ? "Log In" : "Sign In" }
 				</Button>
 			</Form>
@@ -118,7 +134,7 @@ export class AuthForm extends Component<Props, State> {
 			<Form.Group controlId={ FormKeys.repeatPassword }>
 				<Form.Label>Repeat Password</Form.Label>
 				<Form.Control
-					onInput= { this.onInput }
+					onInput={ this.onInput }
 					value={ this.state.form.repeatPassword }
 					type="password"
 					placeholder="Repeat Password"

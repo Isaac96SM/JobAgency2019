@@ -36,7 +36,7 @@ export class CompanyController {
 
 	public async post(req: Request, res: Response) {
 		const newCompany = new Company(req.body) as ICompany
-
+		
 		const result: ICompany = await CompanyHelper.save(newCompany)
 
 		if (!result)

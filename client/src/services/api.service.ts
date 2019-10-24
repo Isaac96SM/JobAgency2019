@@ -5,9 +5,9 @@ import { User, Company, Offer, Inscription } from "../models"
 class ApiService {
 	public users = {
 		get: async () => await this.http.get("users") as User[],
-		post: async (user: any) => await this.http.post("users", user) as boolean,
+		post: async (user: User) => await this.http.post("users", user) as boolean,
 		getById: async (id: string) => await this.http.get(`users/${id}`) as User,
-		put: async (user: any) => await this.http.put(`users/${user.id}`, user) as User,
+		put: async (user: User) => await this.http.put(`users/${user._id}`, user) as User,
 		delete: async (id: string) => await this.http.delete(`users/${id}`) as boolean,
 		login: async (email: string, password: string) =>
 			await this.http.post("users/login", { email, password }) as string
@@ -15,9 +15,9 @@ class ApiService {
 
 	companies = {
 		get: async () => await this.http.get("companies") as Company[],
-		post: async (company: any) => await this.http.post("companies", company) as boolean,
+		post: async (company: Company) => await this.http.post("companies", company) as boolean,
 		getById: async (id: string) => await this.http.get(`companies/${id}`) as Company,
-		put: async (company: any) => await this.http.put(`companies/${company.id}`, company) as Company,
+		put: async (company: Company) => await this.http.put(`companies/${company._id}`, company) as Company,
 		delete: async (id: string) => await this.http.delete(`companies/${id}`) as boolean,
 		login: async (email: string, password: string) =>
 			await this.http.post("companies/login", { email, password }) as string,
@@ -28,9 +28,9 @@ class ApiService {
 
 	offers = {
 		get: async () => await this.http.get("offers") as Offer[],
-		post: async (offer: any) => await this.http.post("offers", offer) as boolean,
+		post: async (offer: Offer) => await this.http.post("offers", offer) as boolean,
 		getById: async (id: string) => await this.http.get(`offers/${id}`) as Offer,
-		put: async (offer: any) => await this.http.put(`offers/${offer.id}`, offer) as Offer,
+		put: async (offer: Offer) => await this.http.put(`offers/${offer._id}`, offer) as Offer,
 		delete: async (id: string) => await this.http.delete(`offers/${id}`) as boolean,
 		inscriptions: {
 			get: async (offer_id: string) => await this.http.get(`offers/${offer_id}/inscriptions`) as Inscription[],
