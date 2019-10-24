@@ -1,6 +1,7 @@
-import { AppTable } from "../../AppTable"
+import { Props as TableProps, State as TableState } from "../../models"
+import { ComponentRef } from "../../../../models"
 
 export interface Props {
-	tableRef: AppTable
+	tableRef: ComponentRef<TableProps, TableState>
 	column: string
 }

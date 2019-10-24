@@ -72,7 +72,6 @@ export class Paginator extends Component<Props, State> {
 		const limit: number = this.props.limit
 
 		this.table.setState({
-			...this.table.state,
 			skip,
 			limit
 		})

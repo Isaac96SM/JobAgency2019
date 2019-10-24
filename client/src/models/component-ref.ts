@@ -2,8 +2,9 @@ import { Component } from "react"
 
 export class ComponentRef<Props, State> {
 	state: State
-	setState: (
-		state: ((prevState: Readonly<State>, props: Readonly<Props>) => (State | null)) | (State | null),
+	setState: <K extends keyof State>(
+		state: ((prevState: Readonly<State>, props: Readonly<Props>) =>
+			(Pick<State, K> | State | null)) | (Pick<State, K> | State | null),
 		callback?: () => void
 	) => void
 

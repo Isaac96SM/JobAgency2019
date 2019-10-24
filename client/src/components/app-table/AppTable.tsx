@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from "react"
 import { Table } from "react-bootstrap"
 
-import { Props, State, Header } from "./models"
 import { Paginator } from "./components"
+
+import { ComponentRef } from "../../models"
+import { Props, State, Header } from "./models"
 
 export class AppTable extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
@@ -28,6 +30,8 @@ export class AppTable extends Component<Props, State> {
 		skip: 0,
 		limit: this.props.limit || 20
 	}
+
+	ref = new ComponentRef(this)
 
 	getHeader = this._getHeader.bind(this)
 	getFilters = this._getFilters.bind(this)
@@ -104,7 +108,7 @@ export class AppTable extends Component<Props, State> {
 	private _getPaginator() {
 		return (
 			<Paginator
-				tableRef={ this }
+				tableRef={ this.ref }
 				items={ this.state.filteredData.length }
 				limit={ this.state.limit }
 			/>
@@ -130,7 +134,7 @@ export class AppTable extends Component<Props, State> {
 
 			return (
 				<FilterComponent
-					tableRef={ this }
+					tableRef={ this.ref }
 					column={ header.value }
 				/>
 			)

@@ -190,7 +190,6 @@ export class AuthForm extends Component<Props, State> {
 
 	private _onDismiss() {
 		this.parent.setState({
-			...this.parent.state,
 			error: ""
 		})
 	}
