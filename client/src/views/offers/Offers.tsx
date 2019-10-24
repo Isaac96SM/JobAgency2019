@@ -1,19 +1,31 @@
 import React, { Component, Fragment } from "react"
+import { connect } from "react-redux"
 
 import { AppTable } from "../../components"
 
 import apiService from "../../services/api.service"
 
 import { Headers } from "./constants"
-import { Props, State } from "./models"
+import { Props, State, mapStateToProps } from "./models"
+import { Company } from "../../models"
 
-export class Offers extends Component<Props, State> {
+class OffersComponent extends Component<Props, State> {
 	state: State = {
 		offers: []
 	}
 
+	get company() {
+		return this.props.currentCompany as Company
+	}
+
+	get isCompany() {
+		return this.company !== undefined
+	}
+
 	async componentDidMount() {
-		const offers = await apiService.offers.get()
+		const offers = !this.isCompany
+			? await apiService.offers.get()
+			: await apiService.companies.offers.get(this.company._id as string)
 
 		for (let i: number = 0; i < 8; i++) {
 			const offer = { ...offers[0] }
@@ -44,3 +56,5 @@ export class Offers extends Component<Props, State> {
 		)
 	}
 }
+
+export const Offers = connect(mapStateToProps, {})(OffersComponent)

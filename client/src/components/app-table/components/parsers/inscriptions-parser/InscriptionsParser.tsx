@@ -17,6 +17,7 @@ import "./styles/InscriptionsParser.css"
 class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State & BaseState<Inscription[]>> {
 	state: State & BaseState<Inscription[]> = {
 		show: false,
+		currentUser: this.props.currentUser,
 		...this.baseState
 	}
 
@@ -25,10 +26,19 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 	showModal = this._toggleModal.bind(this, true)
 	hideModal = this._toggleModal.bind(this, false)
 
+	get user() {
+		return this.state.currentUser as User
+	}
+
+	get isUser() {
+		return this.user !== undefined
+	}
+
 	render() {
-		const subscribed: boolean = this.state.value.filter(x => x.User === (this.props.currentUser as User)._id).length > 0
+		const subscribed: boolean = this.isUser && this.state.value.filter(x => x.User === this.user._id).length > 0
+
 		const counter = (
-			<div className="width-25" onClick={ !this.state.show ? this.showModal : () => null }>
+			<div className="width-25" onClick={ (!this.state.show && !this.isUser) ? this.showModal : () => null }>
 				<CounterParser value={ this.state.value } />
 				{ this.getModal() }
 			</div>
