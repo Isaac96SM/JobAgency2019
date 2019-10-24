@@ -4,7 +4,7 @@ import { IRootState } from "../../../store"
 import * as asyncactions from "../../../store/app/async-actions"
 import { AppActions } from "../../../store/app/types"
 
-import { User } from "../../../models"
+import { User, Company } from "../../../models"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { isAuthenticated } = app
@@ -14,8 +14,12 @@ export const mapStateToProps = ({ app }: IRootState) => {
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {
-		setUser: (user: User) => asyncactions.setUser(dispatch, user),
-		getCompanies: () => asyncactions.getCompanies(dispatch)
+		setCurrentUser: (user: User) => asyncactions.setCurrentUser(dispatch, user),
+		setCurrentCompany: (company: Company) => asyncactions.setCurrentCompany(dispatch, company),
+		init: () => {
+			asyncactions.getCompanies(dispatch)
+			asyncactions.getUsers(dispatch)
+		}
 	}
 }
 

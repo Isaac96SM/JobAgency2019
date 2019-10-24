@@ -21,17 +21,18 @@ export async function loginUser(dispatch: Dispatch<AppActions>, email: string, p
 
 		if (token) {
 			localStorage.setItem("jwtToken", token)
+			localStorage.setItem("isCompany", "")
 
 			const user: User = jwt_decode(token)
-			setUser(dispatch, user)
+			setCurrentUser(dispatch, user)
 		}
 	} catch (e) {
 		return e.statusText
 	}
 }
 
-export function setUser(dispatch: Dispatch<AppActions>, user: User) {
-	dispatch(actions.setUser(user))
+export function setCurrentUser(dispatch: Dispatch<AppActions>, user: User) {
+	dispatch(actions.setCurrentUser(user))
 }
 
 export async function signinCompany(dispatch: Dispatch<AppActions>, company: Company) {
@@ -48,22 +49,21 @@ export async function loginCompany(dispatch: Dispatch<AppActions>, email: string
 
 		if (token) {
 			localStorage.setItem("jwtToken", token)
+			localStorage.setItem("isCompany", "true")
 
 			const company: Company = jwt_decode(token)
-			setCompany(dispatch, company)
+			setCurrentCompany(dispatch, company)
 		}
 	} catch (e) {
 		return e.statusText
 	}
 }
 
-export function setCompany(dispatch: Dispatch<AppActions>, company: Company) {
-	dispatch(actions.setCompany(company))
+export function setCurrentCompany(dispatch: Dispatch<AppActions>, company: Company) {
+	dispatch(actions.setCurrentCompany(company))
 }
 
 export function logout(dispatch: Dispatch<AppActions>) {
-	localStorage.removeItem("jwtToken")
-
 	return dispatch(actions.logout())
 }
 
@@ -71,4 +71,10 @@ export async function getCompanies(dispatch: Dispatch<AppActions>) {
 	const companies: Company[] = await apiService.companies.get()
 
 	dispatch(actions.setCompanies(companies))
+}
+
+export async function getUsers(dispatch: Dispatch<AppActions>) {
+	const users: User[] = await apiService.users.get()
+
+	dispatch(actions.setUsers(users))
 }

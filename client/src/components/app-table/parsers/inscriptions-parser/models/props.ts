@@ -1,9 +1,9 @@
 import { IRootState } from "../../../../../store"
 
 export const mapStateToProps = ({ app }: IRootState) => {
-	const { user } = app
+	const { currentUser } = app
 
-	return { user }
+	return { currentUser }
 }
 
 export type Props = ReturnType<typeof mapStateToProps>

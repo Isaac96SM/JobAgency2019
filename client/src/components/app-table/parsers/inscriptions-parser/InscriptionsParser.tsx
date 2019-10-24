@@ -13,7 +13,7 @@ import "./styles/InscriptionsParser.css"
 
 class InscriptionsParserComponent extends BaseParser<Inscription[], Props> {
 	render() {
-		const subscribed: boolean = this.state.value.filter(x => x.User === (this.props.user as User)._id).length > 0
+		const subscribed: boolean = this.state.value.filter(x => x.User === (this.props.currentUser as User)._id).length > 0
 
 		if (!subscribed)
 			return <CounterParser value={ this.state.value } />

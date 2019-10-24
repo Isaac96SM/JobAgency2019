@@ -6,9 +6,9 @@ import * as asyncactions from "../../../store/app/async-actions"
 import { AppActions } from "../../../store/app/types"
 
 export const mapStateToProps = ({ app }: IRootState) => {
-	const { isAuthenticated, user, company } = app
+	const { isAuthenticated, currentUser, currentCompany } = app
 
-	return { isAuthenticated, user, company }
+	return { isAuthenticated, currentUser, currentCompany }
 }
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {

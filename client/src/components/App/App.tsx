@@ -13,7 +13,7 @@ import "./styles/App.css"
 
 class AppComponent extends Component<Props, State> {
 	componentDidMount() {
-		this.props.getCompanies()
+		this.props.init()
 	}
 
 	render() {
@@ -21,7 +21,10 @@ class AppComponent extends Component<Props, State> {
 			const token: string | null = localStorage.getItem("jwtToken")
 
 			if (token)
-				this.props.setUser(jwt_decode(token as string))
+				if (!!localStorage.getItem("isCompany"))
+					this.props.setCurrentCompany(jwt_decode(token as string))
+				else
+					this.props.setCurrentUser(jwt_decode(token as string))
 		}
 
 		return (
