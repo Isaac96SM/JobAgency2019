@@ -9,25 +9,32 @@ import { CounterParser } from ".."
 import { User, Inscription } from "../../../../models"
 import { Headers } from "./constants"
 
-import { Props, mapStateToProps } from "./models"
+import { State as BaseState } from "../models"
+import { Props, mapStateToProps, State } from "./models"
 
 import "./styles/InscriptionsParser.css"
 
-class InscriptionsParserComponent extends BaseParser<Inscription[], Props> {
+class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State & BaseState<Inscription[]>> {
+	state: State & BaseState<Inscription[]> = {
+		show: false,
+		...this.baseState
+	}
+
 	getModal = this._getModal.bind(this)
 	getUserData = this._getUserData.bind(this)
-	showModal = this._showModal.bind(this)
+	showModal = this._toggleModal.bind(this, true)
+	hideModal = this._toggleModal.bind(this, false)
 
 	render() {
 		const subscribed: boolean = this.state.value.filter(x => x.User === (this.props.currentUser as User)._id).length > 0
 		const counter = (
-			<div className="width-25" onClick={ this.showModal }>
+			<div className="width-25" onClick={ !this.state.show ? this.showModal : () => null }>
 				<CounterParser value={ this.state.value } />
 				{ this.getModal() }
 			</div>
 		)
 
-		if (!subscribed)
+		if (!subscribed || this.state.show)
 			return counter
 
 		return (
@@ -47,7 +54,7 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props> {
 	// #region JSX
 	private _getModal() {
 		return (
-			<Modal show={ false } backdrop="static">
+			<Modal show={ this.state.show } backdrop="static">
 				<Modal.Header>
 					<Modal.Title>Inscriptions</Modal.Title>
 				</Modal.Header>
@@ -61,7 +68,12 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props> {
 				</Modal.Body>
 
 				<Modal.Footer>
-					<Button variant="secondary">Close</Button>
+					<Button
+						variant="secondary"
+						onClick={ this.hideModal }
+					>
+						Close
+					</Button>
 				</Modal.Footer>
 			</Modal>
 		)
@@ -72,13 +84,16 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props> {
 	private _getUserData() {
 		return this.props.users
 			.filter(u => this.state.value.map(v => v.User).includes(u._id as string))
-			.map(u => ({ Name: `${u.LastName}, ${u.FirstName}` }))
+			.map(u => ({ _id: u._id, Name: `${u.LastName}, ${u.FirstName}` }))
 	}
 	// #endregion
 
 	// #region Events
-	private _showModal() {
-		return
+	private _toggleModal(newValue: boolean) {
+		this.setState({
+			...this.state,
+			show: newValue
+		})
 	}
 	// #endregion
 }

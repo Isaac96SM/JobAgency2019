@@ -78,7 +78,6 @@ export class AuthForm extends Component<Props, State> {
 
 				<Button
 					variant="primary"
-					type="button"
 					onClick={ this.onSubmit }
 					disabled={ this.disabled }
 				>

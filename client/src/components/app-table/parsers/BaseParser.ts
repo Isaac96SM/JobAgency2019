@@ -1,21 +1,22 @@
 import { Component } from "react"
 
-import { Props as BaseProps, State } from "./models"
+import { Props as BaseProps, State as BaseState } from "./models"
 
-export abstract class BaseParser<Type, Props = BaseProps<Type>>
-	extends Component<Props & BaseProps<Type>, State<Type>> {
+export abstract class BaseParser<Type, Props = BaseProps<Type>, State = BaseState<Type>>
+	extends Component<Props & BaseProps<Type>, State & BaseState<Type>> {
 
-	static getDerivedStateFromProps(props: any & BaseProps<any>, state: State<any>)
-		: State<any> {
+	static getDerivedStateFromProps(props: any & BaseProps<any>, state: any & BaseState<any>)
+		: any & BaseState<any> {
 		if (props.value !== state.value)
 			return {
+				...state,
 				value: props.value
 			}
 
 		return state
 	}
 
-	state: State<Type> = {
+	baseState: BaseState<Type> = {
 		value: this.props.value
 	}
 }
