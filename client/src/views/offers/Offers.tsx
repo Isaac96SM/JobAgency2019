@@ -1,25 +1,32 @@
 import React, { Component, RefObject } from "react"
 import { connect } from "react-redux"
-import { Button, Row, Col } from "react-bootstrap"
+import { Button, Row, Col, Form } from "react-bootstrap"
 
 import { AppTable, AppModal } from "../../components"
 
 import apiService from "../../services/api.service"
 
 import { Headers } from "./constants"
-import { Props, State, mapStateToProps } from "./models"
-import { Company } from "../../models"
+import { Props, State, mapStateToProps, FormKeys, Form as FormModel } from "./models"
+import { Company, Offer } from "../../models"
 
 class OffersComponent extends Component<Props, State> {
 	state: State = {
-		offers: []
+		offers: [],
+		form: {
+			[FormKeys.Title]: "",
+			[FormKeys.Category]: "",
+			[FormKeys.Description]: ""
+		}
 	}
 
 	modalRef: RefObject<AppModal> = React.createRef()
 
-	getNewButton = this._getNewButton.bind(this)
+	getNewOffer = this._getNewOffer.bind(this)
+	getOffers = this._getOffers.bind(this)
 	showModal = this._showModal.bind(this)
 	onNewOffer = this._onNewOffer.bind(this)
+	onInput = this._onInput.bind(this)
 
 	get company() {
 		return this.props.currentCompany as Company
@@ -33,23 +40,8 @@ class OffersComponent extends Component<Props, State> {
 		return this.modalRef.current as AppModal
 	}
 
-	async componentDidMount() {
-		const offers = !this.isCompany
-			? await apiService.offers.get()
-			: await apiService.companies.offers.get(this.company._id as string)
-
-		for (let i: number = 0; i < 8; i++) {
-			const offer = { ...offers[0] }
-
-			offer._id = `${offer._id}-${i}`
-			offer.Title = `${offer.Title} ${i}`
-
-			offers.push(offer)
-		}
-
-		this.setState({
-			offers
-		})
+	componentDidMount() {
+		this.getOffers()
 	}
 
 	render() {
@@ -60,7 +52,7 @@ class OffersComponent extends Component<Props, State> {
 						<h3>Offers</h3>
 					</Col>
 					<Col xs="2">
-						{ this.isCompany && this.getNewButton() }
+						{ this.isCompany && this.getNewOffer() }
 					</Col>
 				</Row>
 				<AppTable
@@ -73,7 +65,7 @@ class OffersComponent extends Component<Props, State> {
 	}
 
 	// #region JSX
-	private _getNewButton() {
+	private _getNewOffer() {
 		return (
 			<>
 				<Button
@@ -88,21 +80,81 @@ class OffersComponent extends Component<Props, State> {
 					title="New Offer"
 					onAccept={ this.onNewOffer }
 				>
-					{ /* new offer form */ }
+					<Form>
+						<Form.Group controlId={ FormKeys.Title }>
+							<Form.Label>Title</Form.Label>
+							<Form.Control
+								onInput={ this.onInput }
+								value={ this.state.form.Title }
+								type="text"
+								placeholder="Title"
+							/>
+						</Form.Group>
+
+						<Form.Group controlId={ FormKeys.Category }>
+							<Form.Label>Category</Form.Label>
+							<Form.Control
+								onInput={ this.onInput }
+								value={ this.state.form.Category }
+								type="text"
+								placeholder="Category"
+							/>
+						</Form.Group>
+
+						<Form.Group controlId={ FormKeys.Description }>
+							<Form.Label>Description</Form.Label>
+							<Form.Control
+								onInput={ this.onInput }
+								value={ this.state.form.Description }
+								type="text"
+								placeholder="Description"
+							/>
+						</Form.Group>
+					</Form>
 				</AppModal>
 			</>
 		)
 	}
 	// #endregion
 
+	// #region Methods
+	private async _getOffers() {
+		const offers = !this.isCompany
+			? await apiService.offers.get()
+			: await apiService.companies.offers.get(this.company._id as string)
+
+		this.setState({
+			offers
+		})
+	}
+	// #endregion
+
 	// #region Events
-	private _onNewOffer() {
+	private async _onNewOffer() {
 		// Api offer.post
+		try {
+			await apiService.offers.post(this.state.form as Offer)
+
+			this.getOffers()
+		} catch (e) {
+			return e.statusText
+		}
 	}
 
 	private _showModal() {
 		this.modal.setState({
 			show: true
+		})
+	}
+
+	private _onInput(e: React.FormEvent<HTMLInputElement>) {
+		const form: FormModel = { ...this.state.form }
+
+		form[((e.target as HTMLInputElement).id as FormKeys)] = (e.target as HTMLInputElement).value
+
+		this.setState({
+			...this.state,
+			form
 		})
 	}
 	// #endregion

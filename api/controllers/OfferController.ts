@@ -30,14 +30,14 @@ export class OfferController {
 	public async post(req: Request, res: Response) {
 		const company: ICompany = await CompanyHelper.findById(req.user.id)
 
-		if (!company) res.status(HttpStatus.UNAUTHORIZED).send(false)
+		if (!company) res.status(HttpStatus.UNAUTHORIZED).send(HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED))
 
 		const newOffer = new Offer({ ...req.body, Company: req.user.id }) as IOffer
 
 		const result: IOffer = await OfferHelper.save(newOffer)
 
 		if (!result)
-			res.status(HttpStatus.BAD_REQUEST).send(false)
+			res.status(HttpStatus.BAD_REQUEST).send("Something went wrong")
 
 		res.status(HttpStatus.OK).send(true)
 	}

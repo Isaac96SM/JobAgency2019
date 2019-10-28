@@ -12,11 +12,11 @@ const opts = {
 export const middleware = (passport: passport.PassportStatic) => {
 	passport.use(
 		new Strategy(opts, async (jwt_payload, done) => {
-			const user: IUser = await User.findById(jwt_payload.id)
+			const user: IUser = await User.findById(jwt_payload._id)
 
 			if (user) return done(null, user)
 
-			const company: ICompany = await Company.findById(jwt_payload.id)
+			const company: ICompany = await Company.findById(jwt_payload._id)
 
 			if (company) return done(null, company)
 
