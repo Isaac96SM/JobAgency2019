@@ -46,7 +46,10 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 		const subscribed: boolean = this.isUser && this.state.value.filter(x => x.User === this.user._id).length > 0
 
 		const counter = (
-			<div className="width-25" onClick={(!this.modalShow && !this.isUser) ? this.showModal : () => null }>
+			<div
+				className={ `width-25 ${!this.isUser ? "clickable" : ""}` }
+				onClick={ (!this.modalShow && !this.isUser) ? this.showModal : () => null }
+			>
 				<CounterParser value={ this.state.value } />
 				{ this.getModal() }
 			</div>
@@ -101,6 +104,8 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 
 	// #region Events
 	private _showModal() {
+		if (this.modalShow) return
+
 		this.modal.setState({
 			show: true
 		})

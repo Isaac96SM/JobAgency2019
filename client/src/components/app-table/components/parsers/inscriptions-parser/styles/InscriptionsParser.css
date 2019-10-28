@@ -1,3 +1,7 @@
 .width-25 {
 	width: 25%;
 }
+
+.clickable {
+	cursor: pointer;
+}
