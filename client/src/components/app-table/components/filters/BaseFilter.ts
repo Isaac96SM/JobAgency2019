@@ -15,6 +15,10 @@ export abstract class BaseFilter<State> extends Component<Props, State> {
 		return this.table.state.conditions
 	}
 
+	private get data() {
+		return this.table.state.data
+	}
+
 	private get table() {
 		return this.props.tableRef
 	}
@@ -49,13 +53,13 @@ export abstract class BaseFilter<State> extends Component<Props, State> {
 	private _filter(newConditions: Condition[]) {
 		this.table.setState({
 			conditions: newConditions,
-			filteredData: this.table.state.data.filter(row => this.filterRow(row, newConditions))
+			filteredData: this.data.filter(row => this.filterRow(row, newConditions))
 		})
 	}
 	// #endregion
 
 	// #region Utils
-	private _filterRow(row: any, conditions: Condition[] = this.table.state.conditions) {
+	private _filterRow(row: any, conditions: Condition[] = this.conditions) {
 		let result: boolean = true
 
 		conditions.forEach(condition => {
