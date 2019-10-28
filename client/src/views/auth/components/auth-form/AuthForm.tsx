@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { Form, Button, Alert } from "react-bootstrap"
 
 import { Props, State, Form as FormModel, FormKeys, Mode } from "./models"
@@ -104,7 +104,7 @@ export class AuthForm extends Component<Props, State> {
 		}
 
 		return (
-			<Fragment>
+			<>
 				<Form.Group controlId={ FormKeys.firstName }>
 					<Form.Label>First Name</Form.Label>
 					<Form.Control
@@ -124,7 +124,7 @@ export class AuthForm extends Component<Props, State> {
 						placeholder="Last Name"
 					/>
 				</Form.Group>
-			</Fragment>
+			</>
 		)
 	}
 

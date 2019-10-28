@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import { AppTable } from "../../components"
@@ -43,7 +43,7 @@ class OffersComponent extends Component<Props, State> {
 
 	render() {
 		return (
-			<Fragment>
+			<>
 				<div>
 					<h3>Offers</h3>
 				</div>
@@ -52,7 +52,7 @@ class OffersComponent extends Component<Props, State> {
 					data={ this.state.offers }
 					limit={ 5 }
 				/>
-			</Fragment>
+			</>
 		)
 	}
 }

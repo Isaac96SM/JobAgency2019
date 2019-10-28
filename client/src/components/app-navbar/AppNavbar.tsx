@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
@@ -61,10 +61,10 @@ class AppNavbarComponent extends Component<Props, State> {
 				</>
 			)
 			: (
-				<Fragment>
+				<>
 					<Nav.Link onClick={ this.login }>Log In</Nav.Link>
 					<Nav.Link onClick={ this.signin }>Sign In</Nav.Link>
-				</Fragment>
+				</>
 			)
 
 		return (
@@ -75,9 +75,7 @@ class AppNavbarComponent extends Component<Props, State> {
 					<Nav className="mr-auto">
 						{
 							this.state.isAuthenticated && (
-								<Fragment>
 									<Nav.Link onClick={ this.offers }>Offers</Nav.Link>
-								</Fragment>
 							)
 						}
 					</Nav>

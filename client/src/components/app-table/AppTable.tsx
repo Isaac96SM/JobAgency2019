@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { Table } from "react-bootstrap"
 
 import { Paginator } from "./components"
@@ -47,7 +47,7 @@ export class AppTable extends Component<Props, State> {
 		const paginator: boolean = this.state.filteredData.length > this.state.limit
 
 		return (
-			<Fragment>
+			<>
 				<Table>
 					<thead>
 							{ this.getHeader() }
@@ -58,7 +58,7 @@ export class AppTable extends Component<Props, State> {
 					</tbody>
 				</Table>
 				{ paginator && this.getPaginator() }
-			</Fragment>
+			</>
 		)
 	}
 
