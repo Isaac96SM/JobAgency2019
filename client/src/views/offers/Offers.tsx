@@ -1,7 +1,8 @@
-import React, { Component } from "react"
+import React, { Component, RefObject } from "react"
 import { connect } from "react-redux"
+import { Button, Row, Col } from "react-bootstrap"
 
-import { AppTable } from "../../components"
+import { AppTable, AppModal } from "../../components"
 
 import apiService from "../../services/api.service"
 
@@ -14,12 +15,22 @@ class OffersComponent extends Component<Props, State> {
 		offers: []
 	}
 
+	modalRef: RefObject<AppModal> = React.createRef()
+
+	getNewButton = this._getNewButton.bind(this)
+	showModal = this._showModal.bind(this)
+	onNewOffer = this._onNewOffer.bind(this)
+
 	get company() {
 		return this.props.currentCompany as Company
 	}
 
 	get isCompany() {
 		return this.company !== undefined
+	}
+
+	get modal() {
+		return this.modalRef.current as AppModal
 	}
 
 	async componentDidMount() {
@@ -44,9 +55,14 @@ class OffersComponent extends Component<Props, State> {
 	render() {
 		return (
 			<>
-				<div>
-					<h3>Offers</h3>
-				</div>
+				<Row>
+					<Col xs="10">
+						<h3>Offers</h3>
+					</Col>
+					<Col xs="2">
+						{ this.isCompany && this.getNewButton() }
+					</Col>
+				</Row>
 				<AppTable
 					headers={ Headers }
 					data={ this.state.offers }
@@ -55,6 +71,41 @@ class OffersComponent extends Component<Props, State> {
 			</>
 		)
 	}
+
+	// #region JSX
+	private _getNewButton() {
+		return (
+			<>
+				<Button
+					className="action-button"
+					variant="success"
+					onClick={ this.showModal }
+				>
+					New Offer
+				</Button>
+				<AppModal
+					ref={ this.modalRef }
+					title="New Offer"
+					onAccept={ this.onNewOffer }
+				>
+					{ /* new offer form */ }
+				</AppModal>
+			</>
+		)
+	}
+	// #endregion
+
+	// #region Events
+	private _onNewOffer() {
+		// Api offer.post
+	}
+
+	private _showModal() {
+		this.modal.setState({
+			show: true
+		})
+	}
+	// #endregion
 }
 
 export const Offers = connect(mapStateToProps, {})(OffersComponent)

@@ -7,3 +7,21 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	padding-top: 70px;
 }
+
+.action-button {
+	float: right;
+}
+
+.page-link {
+	color: #343a40 !important;
+}
+
+.page-link:hover {
+	color: #343a40 !important;
+}
+
+.page-item.active .page-link {
+	color: #fff !important;
+	background-color: #343a40 !important;
+	border-color: #343a40 !important;
+}

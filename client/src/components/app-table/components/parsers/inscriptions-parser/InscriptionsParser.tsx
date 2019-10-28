@@ -1,8 +1,8 @@
-import React from "react"
+import React, { RefObject } from "react"
 import { connect } from "react-redux"
-import { Tooltip, OverlayTrigger, Modal, Button } from "react-bootstrap"
+import { Tooltip, OverlayTrigger } from "react-bootstrap"
 
-import { AppTable } from "../../../AppTable"
+import { AppTable, AppModal } from "../../../.."
 import { BaseParser } from "../BaseParser"
 import { CounterParser } from ".."
 
@@ -16,15 +16,15 @@ import "./styles/InscriptionsParser.css"
 
 class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State & BaseState<Inscription[]>> {
 	state: State & BaseState<Inscription[]> = {
-		show: false,
 		currentUser: this.props.currentUser,
 		...this.baseState
 	}
 
+	modalRef: RefObject<AppModal> = React.createRef()
+
 	getModal = this._getModal.bind(this)
 	getUserData = this._getUserData.bind(this)
-	showModal = this._toggleModal.bind(this, true)
-	hideModal = this._toggleModal.bind(this, false)
+	showModal = this._showModal.bind(this)
 
 	get user() {
 		return this.state.currentUser as User
@@ -34,17 +34,25 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 		return this.user !== undefined
 	}
 
+	get modal() {
+		return this.modalRef.current as AppModal
+	}
+
+	get modalShow() {
+		return this.modal && this.modal.state.show
+	}
+
 	render() {
 		const subscribed: boolean = this.isUser && this.state.value.filter(x => x.User === this.user._id).length > 0
 
 		const counter = (
-			<div className="width-25" onClick={ (!this.state.show && !this.isUser) ? this.showModal : () => null }>
+			<div className="width-25" onClick={(!this.modalShow && !this.isUser) ? this.showModal : () => null }>
 				<CounterParser value={ this.state.value } />
 				{ this.getModal() }
 			</div>
 		)
 
-		if (!subscribed || this.state.show)
+		if (!subscribed || this.modalShow)
 			return counter
 
 		return (
@@ -64,28 +72,16 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 	// #region JSX
 	private _getModal() {
 		return (
-			<Modal show={ this.state.show } backdrop="static">
-				<Modal.Header>
-					<Modal.Title>Inscriptions</Modal.Title>
-				</Modal.Header>
-
-				<Modal.Body>
-					<AppTable
-						headers={ Headers }
-						data={ this.getUserData() }
-						limit={ 0 }
-					/>
-				</Modal.Body>
-
-				<Modal.Footer>
-					<Button
-						variant="secondary"
-						onClick={ this.hideModal }
-					>
-						Close
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			<AppModal
+				ref={ this.modalRef }
+				title="Inscriptions"
+			>
+				<AppTable
+					headers={ Headers }
+					data={ this.getUserData() }
+					limit={ 0 }
+				/>
+			</AppModal>
 		)
 	}
 	// #endregion
@@ -104,10 +100,9 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 	// #endregion
 
 	// #region Events
-	private _toggleModal(newValue: boolean) {
-		this.setState({
-			...this.state,
-			show: newValue
+	private _showModal() {
+		this.modal.setState({
+			show: true
 		})
 	}
 	// #endregion
