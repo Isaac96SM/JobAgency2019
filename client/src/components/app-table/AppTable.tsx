@@ -175,7 +175,11 @@ export class AppTable extends Component<Props, State> {
 		return row[header.value]
 	}
 
-	private _getActionComponent(action: typeof BaseAction, row: any, idx: number) {
+	private _getActionComponent(
+		action: typeof BaseAction,
+		row: any,
+		idx: number
+	) {
 		const ActionComponent = action
 
 		return <ActionComponent key={ idx } row_id={ row._id } />

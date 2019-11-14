@@ -1,21 +1,29 @@
 import React, { RefObject } from "react"
+import { withRouter, Redirect } from "react-router"
 import { Button } from "react-bootstrap"
+
 import fontawesome from "@fortawesome/fontawesome"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheckSquare, faCoffee } from "@fortawesome/fontawesome-free-solid"
 
 import { AppModal } from "../../../../"
 
-import { BaseAction } from "../BaseAction"
-import { State } from "./models"
 import apiService from "../../../../../services/api.service"
+
+import { BaseAction } from "../BaseAction"
+import { State, Props } from "./models"
 
 fontawesome.library.add(faCheckSquare, faCoffee)
 
-export class DeleteAction extends BaseAction<State> {
+class DeleteActionComponent extends BaseAction<State, Props> {
+	state: State = {
+		complete: false
+	}
+
 	modalRef: RefObject<AppModal> = React.createRef()
 
 	onShow = this._onShow.bind(this)
+	onHide = this._onHide.bind(this)
 	onDelete = this._onDelete.bind(this)
 
 	get modal() {
@@ -23,6 +31,8 @@ export class DeleteAction extends BaseAction<State> {
 	}
 
 	render() {
+		if (this.state.complete) return <Redirect to={ `/refresh#${this.props.location.pathname}` } />
+
 		return (
 			<>
 				<Button
@@ -37,6 +47,7 @@ export class DeleteAction extends BaseAction<State> {
 					onAccept={ this.onDelete }
 					acceptStyle={ { label: "Delete", variant: "danger" } }
 					closeStyle={ { label: "Cancel", variant: "light" } }
+					onHide={ this.onHide }
 				>
 					This offer will not be longer available
 				</AppModal>
@@ -50,7 +61,15 @@ export class DeleteAction extends BaseAction<State> {
 		})
 	}
 
+	private _onHide() {
+		this.setState({
+			complete: true
+		})
+	}
+
 	private async _onDelete() {
 		await apiService.offers.delete(this.props.row_id)
 	}
 }
+
+export const DeleteAction = withRouter(DeleteActionComponent)

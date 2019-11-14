@@ -1,7 +1,7 @@
 import { Component } from "react"
 
-import { Props } from "./models"
+import { Props as BaseProps } from "./models"
 
-export abstract class BaseAction<State> extends Component<Props, State> {
+export abstract class BaseAction<State, Props> extends Component<Props & BaseProps, State> {
 
 }

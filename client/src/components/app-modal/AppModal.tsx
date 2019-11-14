@@ -84,7 +84,7 @@ export class AppModal extends Component<Props, State> {
 	private _setVisibility(state: boolean) {
 		this.setState({
 			show: state
-		})
+		}, () => { if (!this.state.show && this.props.onHide) this.props.onHide() })
 	}
 
 	private _onDismiss() {

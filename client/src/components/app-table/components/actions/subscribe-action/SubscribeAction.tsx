@@ -1,5 +1,7 @@
 import React, { RefObject } from "react"
+import { withRouter, Redirect } from "react-router"
 import { Button } from "react-bootstrap"
+
 import fontawesome from "@fortawesome/fontawesome"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheckSquare, faCoffee } from "@fortawesome/fontawesome-free-solid"
@@ -9,14 +11,19 @@ import { AppModal } from "../../../../"
 import apiService from "../../../../../services/api.service"
 
 import { BaseAction } from "../BaseAction"
-import { State } from "./models"
+import { State, Props } from "./models"
 
 fontawesome.library.add(faCheckSquare, faCoffee)
 
-export class SubscribeAction extends BaseAction<State> {
+class SubscribeActionComponent extends BaseAction<State, Props> {
+	state: State = {
+		complete: false
+	}
+
 	modalRef: RefObject<AppModal> = React.createRef()
 
 	onShow = this._onShow.bind(this)
+	onHide = this._onHide.bind(this)
 	onSubscribe = this._onSubscribe.bind(this)
 
 	get modal() {
@@ -24,6 +31,8 @@ export class SubscribeAction extends BaseAction<State> {
 	}
 
 	render() {
+		if (this.state.complete) return <Redirect to={ `/refresh#${this.props.location.pathname}` } />
+
 		return (
 			<>
 				<Button
@@ -38,6 +47,7 @@ export class SubscribeAction extends BaseAction<State> {
 					onAccept={ this.onSubscribe }
 					acceptStyle={ { label: "Subscribe", variant: "success" } }
 					closeStyle={ { label: "Cancel", variant: "light" } }
+					onHide={ this.onHide }
 				>
 					You'll subscribe to this offer
 				</AppModal>
@@ -51,7 +61,15 @@ export class SubscribeAction extends BaseAction<State> {
 		})
 	}
 
+	private _onHide() {
+		this.setState({
+			complete: true
+		})
+	}
+
 	private async _onSubscribe() {
 		await apiService.offers.inscriptions.put(this.props.row_id)
 	}
 }
+
+export const SubscribeAction = withRouter(SubscribeActionComponent)

@@ -9,5 +9,6 @@ export interface Props {
 	title: string
 	onAccept?: () => void
 	acceptStyle?: ButtonStyle,
-	closeStyle?: ButtonStyle
+	closeStyle?: ButtonStyle,
+	onHide?: () => void
 }
