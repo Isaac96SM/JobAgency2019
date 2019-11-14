@@ -1,3 +1,5 @@
+import { Inscription } from "."
+
 export class Offer {
 	constructor(
 		public _id?: string,
@@ -5,7 +7,7 @@ export class Offer {
 		public Category: string = "",
 		public Description: string = "",
 		public Company?: string,
-		public Inscriptions?: string[],
+		public Inscriptions?: Inscription[],
 		public Date?: Date
 	) { }
 }

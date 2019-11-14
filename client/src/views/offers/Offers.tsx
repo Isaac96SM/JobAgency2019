@@ -6,9 +6,9 @@ import { AppTable, AppModal, FormGroup } from "../../components"
 
 import apiService from "../../services/api.service"
 
-import { Headers, NewOffer } from "./constants"
+import { Headers, NewOffer, Actions } from "./constants"
 import { Props, State, mapStateToProps, FormKeys, Form as FormModel } from "./models"
-import { Company, Offer } from "../../models"
+import { Company, Offer, User } from "../../models"
 
 export class OffersComponent extends Component<Props, State> {
 	state: State = {
@@ -30,6 +30,10 @@ export class OffersComponent extends Component<Props, State> {
 
 	get company() {
 		return this.props.currentCompany as Company
+	}
+
+	get user() {
+		return !this.isCompany ? this.props.currentUser as User : new User()
 	}
 
 	get isCompany() {
@@ -57,6 +61,7 @@ export class OffersComponent extends Component<Props, State> {
 				</Row>
 				<AppTable
 					headers={ Headers }
+					actions={ Actions(this) }
 					data={ this.state.offers }
 					limit={ 5 }
 				/>

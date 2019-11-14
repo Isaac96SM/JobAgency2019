@@ -35,10 +35,10 @@ export class AppModal extends Component<Props, State> {
 				<Modal.Footer>
 					{ this.showAccept && this.getAcceptButton() }
 					<Button
-						variant="danger"
+						variant={ this.props.closeStyle ? this.props.closeStyle.variant : "danger" }
 						onClick={ this.hide }
 					>
-						Close
+						{ this.props.closeStyle ? this.props.closeStyle.label : "Close" }
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -49,10 +49,10 @@ export class AppModal extends Component<Props, State> {
 	private _getAcceptButton() {
 		return (
 			<Button
-				variant="success"
+				variant={ this.props.acceptStyle ? this.props.acceptStyle.variant : "success" }
 				onClick={ this.onAccept }
 			>
-				Accept
+				{ this.props.acceptStyle ? this.props.acceptStyle.label : "Accept" }
 			</Button>
 		)
 	}

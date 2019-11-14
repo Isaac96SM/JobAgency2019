@@ -1,7 +1,8 @@
-import { Header, Condition } from "./"
+import { Header, Condition, Action } from "./"
 
 export interface State {
 	headers: Header[]
+	actions: Action[]
 	data: any[]
 	filteredData: any[]
 	conditions: Condition[]

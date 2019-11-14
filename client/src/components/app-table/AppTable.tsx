@@ -5,6 +5,7 @@ import { Paginator } from "./components"
 
 import { ComponentRef } from "../../models"
 import { Props, State, Header } from "./models"
+import { BaseAction } from "./components/actions/BaseAction"
 
 export class AppTable extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
@@ -18,6 +19,9 @@ export class AppTable extends Component<Props, State> {
 		if (props.headers && props.headers !== state.headers)
 			newState.headers = props.headers
 
+		if (props.actions && props.actions !== state.actions)
+			newState.actions = props.actions
+
 		return newState
 	}
 
@@ -25,6 +29,7 @@ export class AppTable extends Component<Props, State> {
 	state: State = {
 		headers: this.props.headers || [],
 		data: this.props.data || [],
+		actions: this.props.actions || [],
 		filteredData: this.props.data || [],
 		conditions: [],
 		skip: 0,
@@ -73,6 +78,11 @@ export class AppTable extends Component<Props, State> {
 						</th>
 					)
 				}
+				{ this.state.actions.length > 0 && (
+					<th>
+						{ "Actions" }
+					</th>
+				) }
 			</tr>
 		)
 	}
@@ -87,6 +97,11 @@ export class AppTable extends Component<Props, State> {
 						</td>
 					)
 				}
+				{ this.state.actions.length > 0 && (
+					<td>
+						{ null }
+					</td>
+				) }
 			</tr>
 		)
 	}
@@ -101,6 +116,13 @@ export class AppTable extends Component<Props, State> {
 						</td>
 					)
 				}
+				{ this.state.actions.length > 0 && (
+					<td>
+						{ this.state.actions
+							.filter(action => action.show === undefined || action.show(row))
+							.map((action, idx) => this._getActionComponent(action.action, row, idx)) }
+					</td>
+				) }
 			</tr>
 		)
 	}
@@ -151,6 +173,12 @@ export class AppTable extends Component<Props, State> {
 		}
 
 		return row[header.value]
+	}
+
+	private _getActionComponent(action: typeof BaseAction, row: any, idx: number) {
+		const ActionComponent = action
+
+		return <ActionComponent key={ idx } row_id={ row._id } />
 	}
 	// #endregion
 }
