@@ -8,6 +8,7 @@ import { AppModal } from "../../../../"
 
 import { BaseAction } from "../BaseAction"
 import { State } from "./models"
+import apiService from "../../../../../services/api.service"
 
 fontawesome.library.add(faCheckSquare, faCoffee)
 
@@ -49,7 +50,7 @@ export class DeleteAction extends BaseAction<State> {
 		})
 	}
 
-	private _onDelete() {
-		
+	private async _onDelete() {
+		await apiService.offers.delete(this.props.row_id)
 	}
 }

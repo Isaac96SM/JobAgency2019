@@ -13,11 +13,11 @@ import { State } from "./models"
 
 fontawesome.library.add(faCheckSquare, faCoffee)
 
-export class SubscribeAction extends BaseAction<State> {
+export class UnsubscribeAction extends BaseAction<State> {
 	modalRef: RefObject<AppModal> = React.createRef()
 
 	onShow = this._onShow.bind(this)
-	onSubscribe = this._onSubscribe.bind(this)
+	onUnsubscribe = this._onUnsubscribe.bind(this)
 
 	get modal() {
 		return this.modalRef.current as AppModal
@@ -27,19 +27,19 @@ export class SubscribeAction extends BaseAction<State> {
 		return (
 			<>
 				<Button
-					variant="success"
+					variant="danger"
 					onClick={ this.onShow }
 				>
-					<FontAwesomeIcon icon="sign-in-alt"/>
+					<FontAwesomeIcon icon="sign-out-alt"/>
 				</Button>
 				<AppModal
 					ref={ this.modalRef }
-					title="Subscribe to Offer"
-					onAccept={ this.onSubscribe }
-					acceptStyle={ { label: "Subscribe", variant: "success" } }
+					title="Unsubscribe to Offer"
+					onAccept={ this.onUnsubscribe }
+					acceptStyle={ { label: "Unsubscribe", variant: "danger" } }
 					closeStyle={ { label: "Cancel", variant: "light" } }
 				>
-					You'll subscribe to this offer
+					You'll remove your subscription
 				</AppModal>
 			</>
 		)
@@ -51,7 +51,7 @@ export class SubscribeAction extends BaseAction<State> {
 		})
 	}
 
-	private async _onSubscribe() {
-		await apiService.offers.inscriptions.put(this.props.row_id)
+	private async _onUnsubscribe() {
+		await apiService.offers.inscriptions.delete(this.props.row_id)
 	}
 }
