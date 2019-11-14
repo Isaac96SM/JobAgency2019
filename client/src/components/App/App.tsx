@@ -20,11 +20,16 @@ class AppComponent extends Component<Props, State> {
 		if (!this.props.isAuthenticated) {
 			const token: string | null = localStorage.getItem("jwtToken")
 
-			if (token)
-				if (!!localStorage.getItem("isCompany"))
-					this.props.setCurrentCompany(jwt_decode(token as string))
-				else
-					this.props.setCurrentUser(jwt_decode(token as string))
+			if (token) {
+					const decoded: any = jwt_decode(token as string)
+
+					if (!!localStorage.getItem("isCompany") && decoded.exp > (Date.now() / 1000))
+						this.props.setCurrentCompany(jwt_decode(token as string))
+					else if (decoded.exp > (Date.now() / 1000))
+						this.props.setCurrentUser(jwt_decode(token as string))
+					else
+						this.props.logOut()
+				}
 		}
 
 		return (

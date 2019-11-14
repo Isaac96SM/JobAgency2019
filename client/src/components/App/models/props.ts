@@ -16,6 +16,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {
 		setCurrentUser: (user: User) => asyncactions.setCurrentUser(dispatch, user),
 		setCurrentCompany: (company: Company) => asyncactions.setCurrentCompany(dispatch, company),
+		logOut: () => asyncactions.logout(dispatch),
 		init: () => {
 			asyncactions.getCompanies(dispatch)
 			asyncactions.getUsers(dispatch)

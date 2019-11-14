@@ -2,15 +2,15 @@ import React, { Component, RefObject } from "react"
 import { connect } from "react-redux"
 import { Button, Row, Col, Form } from "react-bootstrap"
 
-import { AppTable, AppModal } from "../../components"
+import { AppTable, AppModal, FormGroup } from "../../components"
 
 import apiService from "../../services/api.service"
 
-import { Headers } from "./constants"
+import { Headers, NewOffer } from "./constants"
 import { Props, State, mapStateToProps, FormKeys, Form as FormModel } from "./models"
 import { Company, Offer } from "../../models"
 
-class OffersComponent extends Component<Props, State> {
+export class OffersComponent extends Component<Props, State> {
 	state: State = {
 		offers: [],
 		form: {
@@ -81,35 +81,16 @@ class OffersComponent extends Component<Props, State> {
 					onAccept={ this.onNewOffer }
 				>
 					<Form>
-						<Form.Group controlId={ FormKeys.Title }>
-							<Form.Label>Title</Form.Label>
-							<Form.Control
-								onInput={ this.onInput }
-								value={ this.state.form.Title }
-								type="text"
-								placeholder="Title"
+						{ NewOffer(this).map((field, idx) => (
+							<FormGroup
+								key={ idx }
+								id={ field.id }
+								label={ field.label }
+								value={ field.value }
+								type={ field.type }
+								onInput={ field.onInput }
 							/>
-						</Form.Group>
-
-						<Form.Group controlId={ FormKeys.Category }>
-							<Form.Label>Category</Form.Label>
-							<Form.Control
-								onInput={ this.onInput }
-								value={ this.state.form.Category }
-								type="text"
-								placeholder="Category"
-							/>
-						</Form.Group>
-
-						<Form.Group controlId={ FormKeys.Description }>
-							<Form.Label>Description</Form.Label>
-							<Form.Control
-								onInput={ this.onInput }
-								value={ this.state.form.Description }
-								type="text"
-								placeholder="Description"
-							/>
-						</Form.Group>
+						)) }
 					</Form>
 				</AppModal>
 			</>
