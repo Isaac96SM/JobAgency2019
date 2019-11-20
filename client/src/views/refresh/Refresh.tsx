@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom"
 import { Props } from "./models"
 
 class RefreshComponent extends Component<Props> {
-	render () {
+	render() {
 		return (
 			<Redirect to={ this.props.location.hash.slice(1) } />
 		)

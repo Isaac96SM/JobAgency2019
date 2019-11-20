@@ -1,5 +1,5 @@
 import { Header } from "../../../components/app-table/models"
-import { CompanyParser, InscriptionsParser, TextFilter } from "../../../components/app-table/components"
+import { CompanyParser, InscriptionsParser, TextFilter, ListFilter } from "../../../components/app-table/components"
 
 export const Headers: Header[] = [
 	{
@@ -12,7 +12,8 @@ export const Headers: Header[] = [
 	},
 	{
 		value: "Category",
-		label: "Sector"
+		label: "Sector",
+		filter: ListFilter
 	},
 	{
 		value: "Company",

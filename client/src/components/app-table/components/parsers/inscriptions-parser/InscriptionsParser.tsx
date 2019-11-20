@@ -92,11 +92,11 @@ class InscriptionsParserComponent extends BaseParser<Inscription[], Props, State
 	// #region Methods
 	private _getUserData() {
 		return this.state.value.map(v => {
-			const user: User = this.props.users.find(u => u._id === v.User) as User
+			const user: User | undefined = this.props.users.find(u => u._id === v.User)
 
 			return {
 				...v,
-				Name: `${user.LastName}, ${user.FirstName}`
+				Name: user ? `${user.LastName}, ${user.FirstName}` : v.User
 			}
 		})
 	}

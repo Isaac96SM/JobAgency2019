@@ -26,7 +26,7 @@ export abstract class BaseFilter<State> extends Component<Props, State> {
 	// #region Alter Conditions
 	private _addCondition(condition: Condition) {
 		const idx: number = this.conditions.map(x => x.field).indexOf(condition.field)
-		const newConditions: Condition[] = [...this.conditions]
+		const newConditions: Condition[] = [ ...this.conditions ]
 
 		if (idx !== -1) {
 			newConditions[idx].callback = condition.callback
@@ -39,7 +39,7 @@ export abstract class BaseFilter<State> extends Component<Props, State> {
 
 	private _removeCondition(field: string) {
 		const idx: number = this.conditions.map(x => x.field).indexOf(field)
-		const newConditions: Condition[] = [...this.conditions]
+		const newConditions: Condition[] = [ ...this.conditions ]
 
 		if (idx !== -1) {
 			newConditions.splice(idx, 1)
