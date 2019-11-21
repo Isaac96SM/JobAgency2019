@@ -13,9 +13,9 @@ export class TextFilter extends BaseFilter<State> {
 		return <Form.Control id={ this.props.column } onInput={ this.onChange } />
 	}
 
-	private _onChange(e: React.FormEvent<any>) {
-		const field: string = (e.target as HTMLInputElement).id
-		const newValue: string = (e.target as HTMLInputElement).value
+	private _onChange(e: React.FormEvent<HTMLInputElement>) {
+		const field: string = e.currentTarget.id
+		const newValue: string = e.currentTarget.value
 
 		if (!newValue)
 			return this.removeCondition(field)

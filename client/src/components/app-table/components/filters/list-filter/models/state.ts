@@ -1,3 +1,4 @@
 export interface State {
-	values: string[]
+	values: string[],
+	search: string
 }

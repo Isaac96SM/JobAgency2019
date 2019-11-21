@@ -17,7 +17,8 @@ export const Headers: Header[] = [
 	},
 	{
 		value: "Company",
-		parser: CompanyParser
+		parser: CompanyParser,
+		// filter: ListFilter
 	},
 	{
 		value: "Inscriptions",

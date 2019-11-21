@@ -14,47 +14,61 @@ fontawesome.library.add(faCheckSquare, faCoffee)
 
 export class ListFilter extends BaseFilter<State> {
 	state: State = {
-		values: []
+		values: [],
+		search: ""
 	}
 
+	getButton = this._getButton.bind(this)
 	getPopover = this._getPopover.bind(this)
 	getCheckbox = this._getCheckbox.bind(this)
 	onChange = this._onChange.bind(this)
-	onApply = this._onApply.bind(this)
+	onInput = this._onInput.bind(this)
+	showCheckbox = this._showCheckbox.bind(this)
 
-	get values() {
+	get values(): string[] {
 		return [ ...new Set(this.props.tableRef.state.data.map(row => row[this.props.column])) ]
+	}
+
+	get filtered(): boolean {
+		return this.state.values.length > 0 && this.state.values.length !== this.values.length
 	}
 
 	render() {
 		const popover = this.getPopover()
 
 		return (
-			<>
-				<Form.Label>
-					Selected: { this.state.values.length }
-				</Form.Label>
-				<OverlayTrigger rootClose trigger="click" placement="right" overlay={ popover }>
-					<FontAwesomeIcon icon="filter" />
-				</OverlayTrigger>
-			</>
+			<OverlayTrigger rootClose trigger="click" placement="right" overlay={ popover }>
+				{ this.getButton() }
+			</OverlayTrigger>
 		)
 	}
 
 	// #region JSX
+	private _getButton() {
+		return (
+			<Button
+				style={ { width: "100%" } }
+				variant={ this.filtered ? "secondary" : "light" }
+			>
+				<FontAwesomeIcon icon="filter" />
+			</Button>
+		)
+	}
+
 	private _getPopover() {
 		return (
 			<Popover id="popover-basic">
 				<Popover.Title as="h3">Filter</Popover.Title>
 				<Popover.Content>
 					<Form>
-						{ this.values.map(this.getCheckbox) }
-						<Button
-							variant="primary"
-							onClick={ this.onApply }
-						>
-							Apply
-						</Button>
+						<Form.Group>
+							<Form.Control placeholder="Search" onInput={ this.onInput } />
+						</Form.Group>
+						{
+							this.values
+								.filter(this.showCheckbox)
+								.map(this.getCheckbox)
+						}
 					</Form>
 				</Popover.Content>
 			</Popover>
@@ -87,10 +101,23 @@ export class ListFilter extends BaseFilter<State> {
 
 		this.setState({
 			values
-		})
+		}, this._apply)
 	}
 
-	private _onApply() {
+	private _onInput(e: React.FormEvent<HTMLInputElement>) {
+		this.setState({
+			...this.state,
+			search: e.currentTarget.value
+		})
+	}
+	// #endregion
+
+	// #region Utils
+	private _showCheckbox(value: string) {
+		return this.state.search === "" || value.toLowerCase().includes(this.state.search.toLowerCase())
+	}
+
+	private _apply() {
 		this.removeCondition(this.props.column)
 
 		if (this.state.values.length !== 0) {
@@ -101,8 +128,6 @@ export class ListFilter extends BaseFilter<State> {
 
 			this.addCondition(condition)
 		}
-
-		document.body.click()
 	}
 	// #endregion
 }
