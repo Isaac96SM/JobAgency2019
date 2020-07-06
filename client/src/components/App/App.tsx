@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap"
 import jwt_decode from "jwt-decode"
 
 import { Offers, LogIn, SignIn, Refresh } from "../../views"
-import { AppNavbar, PrivateRoute, NotLoggedRoute } from ".."
+import { AppNavbar, PrivateRoute, PublicRoute } from ".."
 
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
 
@@ -38,8 +38,8 @@ class AppComponent extends Component<Props, State> {
 					<Container>
 						<PrivateRoute exact path="/refresh" component={ Refresh } />
 						<PrivateRoute exact path="/offers" component={ Offers } />
-						<NotLoggedRoute exact path="/login" component={ LogIn } />
-						<NotLoggedRoute exact path="/signin" component={ SignIn } />
+						<PublicRoute exact path="/login" component={ LogIn } />
+						<PublicRoute exact path="/signin" component={ SignIn } />
 					</Container>
 				</Router>
 		)

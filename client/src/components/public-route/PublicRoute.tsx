@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import { State, Props, mapStateToProps } from "./models"
 
-class NotLoggedRouteComponent extends Component<Props, State> {
+class PublicRouteComponent extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
 		if (props.isAuthenticated !== state.isAuthenticated) {
 			return {
@@ -46,4 +46,4 @@ class NotLoggedRouteComponent extends Component<Props, State> {
 	}
 }
 
-export const NotLoggedRoute = connect(mapStateToProps)(NotLoggedRouteComponent)
+export const PublicRoute = connect(mapStateToProps)(PublicRouteComponent)

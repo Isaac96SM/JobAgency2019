@@ -1,11 +1,12 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router"
 import { Table } from "react-bootstrap"
 
 import { Paginator } from "./components"
 
 import { ComponentRef } from "../../models"
-import { Props, State, Header } from "./models"
-import { BaseAction } from "./components/actions/BaseAction"
+import { Props, State, Header, Action } from "./models"
+import { Props as BaseActionProps } from "./components/actions/models"
 
 export class AppTable extends Component<Props, State> {
 	static getDerivedStateFromProps(props: Props, state: State): State {
@@ -176,11 +177,11 @@ export class AppTable extends Component<Props, State> {
 	}
 
 	private _getActionComponent(
-		action: typeof BaseAction,
+		action: Action["action"],
 		row: any,
 		idx: number
 	) {
-		const ActionComponent = action
+		const ActionComponent = withRouter<BaseActionProps, any>(action)
 
 		return <ActionComponent key={ idx } row_id={ row._id } />
 	}
