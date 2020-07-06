@@ -1,9 +1,9 @@
 import { Component } from "react"
 
-import { Props } from "./models"
+import { Props as BaseProps} from "./models"
 import { Condition } from "../../models"
 
-export abstract class BaseFilter<State> extends Component<Props, State> {
+export class BaseFilter<State, Props = {}> extends Component<Props & BaseProps, State> {
 	// #region Constructor
 	addCondition = this._addCondition.bind(this)
 	removeCondition = this._removeCondition.bind(this)
