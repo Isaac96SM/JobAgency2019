@@ -1,7 +1,7 @@
 import { Dispatch } from "redux"
 
-import * as asyncactions from "../../../../store/app/async-actions"
-import { AppActions } from "../../../../store/app/types"
+import * as asyncactions from "store/app/async-actions"
+import { AppActions } from "store/app/types"
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {

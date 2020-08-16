@@ -1,4 +1,4 @@
-import { ComponentRef } from "../../../../../models"
+import { ComponentRef } from "models"
 
 import { State } from "../../../models"
 

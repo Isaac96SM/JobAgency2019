@@ -1,11 +1,11 @@
-import { Action } from "../../../components/app-table/models"
-import { DeleteAction, SubscribeAction, UnsubscribeAction } from "../../../components/app-table/components/actions"
+import { Action } from "components/app-table/models"
+import { DeleteAction, SubscribeAction, UnsubscribeAction } from "components/app-table/components/actions"
 
-import { OffersComponent } from "../Offers"
-import { Offer, Inscription } from "../../../models"
+import { OffersComponent } from "views"
+import { Offer, Inscription } from "models"
 
-export const Actions = (component: OffersComponent): Action[] => {
-	if (component.isCompany) {
+export function actions(this: OffersComponent): Action[] {
+	if (this.isCompany) {
 		return [
 			{
 				action: DeleteAction
@@ -14,7 +14,7 @@ export const Actions = (component: OffersComponent): Action[] => {
 	} else {
 		const isSubscribed = (row: Offer): boolean =>
 			(row.Inscriptions as Inscription[])
-			.some(ins => ins.User === component.user._id)
+			.some(ins => ins.User === this.user._id)
 
 		return [
 			{

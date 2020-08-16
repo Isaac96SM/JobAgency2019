@@ -4,14 +4,14 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { Container } from "react-bootstrap"
 import jwt_decode from "jwt-decode"
 
-import { Offers, LogIn, SignIn, Refresh } from "../../views"
-import { AppNavbar, PrivateRoute, PublicRoute } from ".."
+import { Offers, LogIn, SignIn, Refresh } from "views"
+import { AppNavbar, PrivateRoute, PublicRoute } from "components"
 
-import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
+import { Props, mapStateToProps, mapDispatcherToProps } from "./models"
 
 import "./styles/App.css"
 
-class AppComponent extends Component<Props, State> {
+class AppComponent extends Component<Props> {
 	componentDidMount() {
 		this.props.init()
 	}

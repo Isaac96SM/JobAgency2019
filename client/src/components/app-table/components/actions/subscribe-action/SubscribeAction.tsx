@@ -1,4 +1,4 @@
-import apiService from "../../../../../services/api.service"
+import apiService from "services/api.service"
 
 import { BaseAction } from "../BaseAction"
 import { ModalData } from "../models"

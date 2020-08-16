@@ -1,10 +1,10 @@
 import { Dispatch } from "redux"
 
-import { IRootState } from "../../../store"
-import * as asyncactions from "../../../store/app/async-actions"
-import { AppActions } from "../../../store/app/types"
+import { IRootState } from "store"
+import * as asyncactions from "store/app/async-actions"
+import { AppActions } from "store/app/types"
 
-import { User, Company } from "../../../models"
+import { User, Company } from "models"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { isAuthenticated } = app

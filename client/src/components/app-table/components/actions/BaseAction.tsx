@@ -6,7 +6,7 @@ import fontawesome from "@fortawesome/fontawesome"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheckSquare, faCoffee } from "@fortawesome/fontawesome-free-solid"
 
-import { AppModal } from "../../../"
+import { AppModal } from "components"
 
 import { Props as BaseProps, State as BaseState, ModalData } from "./models"
 

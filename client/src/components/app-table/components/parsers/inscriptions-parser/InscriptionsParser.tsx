@@ -2,11 +2,11 @@ import React, { RefObject } from "react"
 import { connect } from "react-redux"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
 
-import { AppTable, AppModal } from "../../../.."
+import { AppTable, AppModal } from "components"
 import { BaseParser } from "../BaseParser"
 import { CounterParser } from ".."
 
-import { User, Inscription } from "../../../../../models"
+import { User, Inscription } from "models"
 import { Headers } from "./constants"
 
 import { State as BaseState } from "../models"

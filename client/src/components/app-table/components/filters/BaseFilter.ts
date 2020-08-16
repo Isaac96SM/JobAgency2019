@@ -3,7 +3,7 @@ import { Component } from "react"
 import { Props as BaseProps} from "./models"
 import { Condition } from "../../models"
 
-export class BaseFilter<State, Props = {}> extends Component<Props & BaseProps, State> {
+export class BaseFilter<State = {}, Props = {}> extends Component<Props & BaseProps, State> {
 	// #region Constructor
 	addCondition = this._addCondition.bind(this)
 	removeCondition = this._removeCondition.bind(this)

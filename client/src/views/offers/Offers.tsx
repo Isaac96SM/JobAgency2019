@@ -2,13 +2,13 @@ import React, { Component, RefObject } from "react"
 import { connect } from "react-redux"
 import { Button, Row, Col, Form } from "react-bootstrap"
 
-import { AppTable, AppModal, FormGroup } from "../../components"
+import { AppTable, AppModal, FormGroup } from "components"
 
-import apiService from "../../services/api.service"
+import apiService from "services/api.service"
 
-import { Headers, NewOffer, Actions } from "./constants"
+import { Headers, newOffer, actions } from "./constants"
 import { Props, State, mapStateToProps, FormKeys, Form as FormModel } from "./models"
-import { Company, Offer, User } from "../../models"
+import { Company, Offer, User } from "models"
 
 export class OffersComponent extends Component<Props, State> {
 	state: State = {
@@ -61,7 +61,7 @@ export class OffersComponent extends Component<Props, State> {
 				</Row>
 				<AppTable
 					headers={ Headers }
-					actions={ Actions(this) }
+					actions={ actions.bind(this)() }
 					data={ this.state.offers }
 					limit={ 5 }
 				/>
@@ -86,7 +86,7 @@ export class OffersComponent extends Component<Props, State> {
 					onAccept={ this.onNewOffer }
 				>
 					<Form>
-						{ NewOffer(this).map((field, idx) => (
+						{ newOffer.bind(this)().map((field, idx) => (
 							<FormGroup
 								key={ idx }
 								id={ field.id }

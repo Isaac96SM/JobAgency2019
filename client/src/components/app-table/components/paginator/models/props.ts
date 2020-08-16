@@ -1,5 +1,5 @@
 import { Props as TableProps, State as TableState } from "../../../models"
-import { ComponentRef } from "../../../../../models"
+import { ComponentRef } from "models"
 
 export interface Props {
 	tableRef: ComponentRef<TableProps, TableState>

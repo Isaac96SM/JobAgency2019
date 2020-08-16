@@ -1,9 +1,7 @@
-import React from "react"
-
 import { IconProp } from "@fortawesome/fontawesome"
 import { ButtonProps } from "react-bootstrap"
 
-import { ButtonStyle } from "../../../../app-modal/models"
+import { ButtonStyle } from "components/app-modal/models"
 
 export interface ModalData {
 	buttonVariant: ButtonProps["variant"]

@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap"
 
 import { Paginator } from "./components"
 
-import { ComponentRef } from "../../models"
+import { ComponentRef } from "models"
 import { Props, State, Header, Action } from "./models"
 import { Props as BaseActionProps } from "./components/actions/models"
 

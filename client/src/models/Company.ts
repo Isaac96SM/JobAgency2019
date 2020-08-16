@@ -1,4 +1,4 @@
-import { Offer, Account } from "./"
+import { Offer, Account } from "models"
 
 export class Company extends Account {
 	constructor(

@@ -1,6 +1,6 @@
 import { RouteProps } from "react-router-dom"
 
-import { IRootState } from "../../../store"
+import { IRootState } from "store"
 
 export const mapStateToProps = ({ app }: IRootState) => {
 	const { isAuthenticated } = app

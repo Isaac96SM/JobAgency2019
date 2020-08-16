@@ -1,7 +1,5 @@
 import { RouteComponentProps } from "react-router-dom"
 
-export interface OwnProps {
+export interface Props extends RouteComponentProps {
 	row_id: string
 }
-
-export type Props = RouteComponentProps & OwnProps

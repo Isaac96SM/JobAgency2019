@@ -1,13 +1,9 @@
 import React, { Component } from "react"
 import { Form } from "react-bootstrap"
 
-import { Props, State } from "./models"
+import { Props } from "./models"
 
-export class FormGroup extends Component<Props, State> {
-	state: State = {
-
-	}
-
+export class FormGroup extends Component<Props> {
 	render() {
 		return (
 			<Form.Group controlId={ this.props.id }>

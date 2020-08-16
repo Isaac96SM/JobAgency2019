@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom"
 import { Navbar, Nav } from "react-bootstrap"
 
 import { State, Props, mapStateToProps, mapDispatcherToProps } from "./models"
-import { Company, User } from "../../models"
+import { Company, User } from "models"
 
 import "./styles/AppNavbar.css"
 

@@ -1,11 +1,11 @@
 import { Dispatch } from "redux"
 import { RouteComponentProps } from "react-router-dom"
 
-import * as asyncactions from "../../../../store/app/async-actions"
-import { AppActions } from "../../../../store/app/types"
+import * as asyncactions from "store/app/async-actions"
+import { AppActions } from "store/app/types"
 
 import { Form } from "../../components/auth-form/models"
-import { User, Company } from "../../../../models"
+import { User, Company } from "models"
 
 export const mapDispatcherToProps = (dispatch: Dispatch<AppActions>) => {
 	return {

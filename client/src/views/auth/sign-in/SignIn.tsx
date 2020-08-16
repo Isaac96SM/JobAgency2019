@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router"
 
-import { ComponentRef } from "../../../models"
+import { ComponentRef } from "models"
 
 import { AuthForm } from "../components"
 import { Mode, Form } from "../components/auth-form/models"

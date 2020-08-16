@@ -1,4 +1,4 @@
-import { Inscription } from "."
+import { Inscription } from "models"
 
 export class Offer {
 	constructor(

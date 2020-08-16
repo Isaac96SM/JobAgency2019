@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { ComponentRef } from "../../../models"
+import { ComponentRef } from "models"
 
 import { AuthForm } from "../components"
 import { Mode, Form } from "../components/auth-form/models"
